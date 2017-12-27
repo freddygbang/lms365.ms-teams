@@ -1,0 +1,36 @@
+import { Session } from 'botbuilder';
+import * as requestExecutor from 'request-promise';
+import { Storage, Query } from 'lms365';
+import { EnvironmentConfigProvider as EnvironmentConfigProviderBase, QueryExecuter as QueryExecuterBase } from 'lms365';
+import { UserStorage } from './user-storage';
+
+class QueryExecuter implements QueryExecuterBase {
+    public execute(query: Query): Promise<any> {
+        const options = {
+            json: true,
+            uri: query.url
+        };
+
+        return requestExecutor(options);
+    }
+}
+
+export class EnvironmentConfigProvider extends EnvironmentConfigProviderBase {
+    private readonly _queryExecuter: QueryExecuter;
+    private readonly _storage: Storage;
+
+    public constructor(session: Session, storage: Storage) {
+        super();
+
+        this._queryExecuter = new QueryExecuter();
+        this._storage = storage;
+    }
+
+    protected get queryExecuter(): QueryExecuter {
+        return this._queryExecuter;
+    }
+
+    protected get storage(): Storage {
+        return this._storage;
+    }
+}

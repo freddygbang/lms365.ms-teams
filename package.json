@@ -1,0 +1,24 @@
+{
+  "name": "ms-teams",
+  "version": "1.0.2",
+  "description": "Microsoft Teams integration",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "build-watch": "./node_modules/.bin/tsc --watch",
+    "start": "node dist/app.js --env=Development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.10.2",
+    "botbuilder-teams": "^0.1.6",
+    "crypto-js": "^3.1.9-1",
+    "dotenv-extended": "^2.0.1",
+    "lms365": "1.0.4",
+    "node-env-file": "^0.1.8",
+    "request-promise": "^4.2.2",
+    "restify": "^6.0.1",
+    "typescript": "^2.5.3"
+  }
+}
