@@ -1,0 +1,78 @@
+﻿{
+    "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.0",
+    "id": "d136f17e-df84-47f2-97a4-13aa24c0c647",
+    "version": "2.1",
+    "packageName": "com.LMS365",
+    "developer": {
+        "name": "ELEARNINGFORCE International",
+        "websiteUrl": "https://www.elearningforce.com",
+        "privacyUrl": "https://www.elearningforce.com",
+        "termsOfUseUrl": "https://www.elearningforce.com"
+    },
+    "description": {
+        "full": "LMS365 is LMS inside the Microsoft Teams!",
+        "short": "LMS365"
+    },
+    "icons": {
+        "outline": "color_icon.png",
+        "color": "color_icon.png"
+    },
+    "staticTabs": [
+        {
+            "contentUrl": "https://lms.365.systems/MsTeamsTabs/Tab?view=dashboard",
+            "name": "Dashboard",
+            "scopes": [
+                "personal"
+            ],
+            "entityId": "lms365-dashboard"
+        }
+    ],
+    "bots": [
+        {
+            "botId": "98284b9e-fec7-4680-a314-be03450ef072",
+            "scopes": [
+                "personal"
+            ]
+        }
+    ],
+    "configurableTabs": [
+        {
+          "configurationUrl": "https://lms.365.systems/MsTeamsTabs/TabConfiguration",
+          "canUpdateConfiguration": true,
+          "scopes": [
+            "team"
+          ]
+        }
+    ],
+    "composeExtensions": [
+        {
+            "botId": "98284b9e-fec7-4680-a314-be03450ef072",
+            "commands": [
+                {
+                    "id": "searchCmd",
+                    "description": "Search courses by keywords",
+                    "title": "Search",
+                    "initialRun": true,
+                    "parameters": [{
+                        "name": "searchKeyword",
+                        "description": "Enter your search keywords",
+                        "title": "Keywords"
+                    }]
+                }
+            ],
+            "scopes": [
+                "personal",
+                "team"
+            ]
+        }
+    ],
+    "name": {
+        "full": "LMS365",
+        "short": "LMS365"
+    },
+    "accentColor": "#FFFFFF",
+    "validDomains": [
+        "lms.365.systems"
+    ]
+}
