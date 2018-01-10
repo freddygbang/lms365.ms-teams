@@ -40,11 +40,11 @@ connector.onQuery('searchCmd', (message: IMessage, query, callback) => {
                 const promise = searchKeyword
                     ? lmsContext.modelStorages.courses.getByKeyword(searchKeyword)
                     : lmsContext.modelStorages.courses.getAll();
-    
+
                 promise.then(courses => {
                     const cards = courses.map(x => lmsContext.attachmentBuilders.courses.build(x).toAttachment());
                     const response = teamBuilder.ComposeExtensionResponse.result('list').attachments(cards).toResponse();
-        
+
                     callback(null, response, 200);
                 })
                 .catch(x => {

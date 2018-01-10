@@ -30,9 +30,22 @@
     ],
     "bots": [
         {
-            "botId": "98284b9e-fec7-4680-a314-be03450ef072",
+            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
             "scopes": [
                 "personal"
+            ],
+            "commandLists": [
+                {
+                    "commands": [
+                        {
+                            "description": "Displays this help message for 1:1 chat",
+                            "title": "help"
+                        }
+                    ],
+                    "scopes": [
+                        "personal"
+                    ]
+                }
             ]
         }
     ],
@@ -47,7 +60,7 @@
     ],
     "composeExtensions": [
         {
-            "botId": "98284b9e-fec7-4680-a314-be03450ef072",
+            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
             "commands": [
                 {
                     "id": "searchCmd",

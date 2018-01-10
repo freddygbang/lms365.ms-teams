@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "botbuilder": "^3.10.2",
+    "botbuilder-azure": "^3.0.4",
     "botbuilder-teams": "^0.1.6",
     "crypto-js": "^3.1.9-1",
     "dotenv-extended": "^2.0.1",
