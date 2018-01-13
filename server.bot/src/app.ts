@@ -1,6 +1,6 @@
 import * as env from 'dotenv-extended';
 import * as restify from 'restify';
-import { IMessage, Session, UniversalBot } from 'botbuilder';
+import { IMessage, Message, Session, UniversalBot } from 'botbuilder';
 import * as teamBuilder from 'botbuilder-teams';
 import { LuisRecognizer } from './luis-recognizer';
 import { wrapAction } from './lms/bot-actions/action';
@@ -30,6 +30,18 @@ bot.dialog(Help.key, wrapAction(Help)).triggerAction({ matches: Help.key });
 bot.dialog(SearchCourseList.key, wrapAction(SearchCourseList)).triggerAction({ matches: SearchCourseList.key });
 bot.dialog(SelectCourseCatalog.key, wrapAction(SelectCourseCatalog)).triggerAction({ matches : SelectCourseCatalog.key });
 bot.dialog(ShowCourseCatalogList.key, wrapAction(ShowCourseCatalogList)).triggerAction({ matches: ShowCourseCatalogList.key });
+
+bot.on('conversationUpdate', (inputMessage) => {
+    if (inputMessage.membersAdded) {
+        bot.loadSession(inputMessage.address, async (error, session: Session) => {
+            const lmsContext = await LmsContextProvider.instance.get(session, inputMessage);
+            const attachment = lmsContext.attachmentBuilders.greeting.build();
+            const message = new Message(session).addAttachment(attachment);
+
+            session.send(message);
+        });
+    }
+});
 
 connector.onQuery('searchCmd', (message: IMessage, query, callback) => {
     bot.loadSession(message.address, (error, session: Session) => {

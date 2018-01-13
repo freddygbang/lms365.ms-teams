@@ -1,0 +1,17 @@
+{
+  "name": "ef.lms365.ms-teams.web",
+  "version": "1.0.2",
+  "description": "Microsoft Teams integration",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "start": "node dist/server.js --env=Development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "^2.5.3"
+  }
+}

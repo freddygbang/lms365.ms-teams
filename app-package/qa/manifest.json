@@ -1,9 +1,9 @@
 ﻿{
     "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
     "manifestVersion": "1.0",
-    "id": "d136f17e-df84-47f2-97a4-13aa24c0c647",
+    "id": "5cb9e567-f05d-40be-8fb7-219cdbf22212",
     "version": "2.2",
-    "packageName": "com.LMS365",
+    "packageName": "com.LMS365-qa",
     "developer": {
         "name": "ELEARNINGFORCE International",
         "websiteUrl": "https://www.elearningforce.com",
@@ -11,8 +11,8 @@
         "termsOfUseUrl": "https://www.elearningforce.com"
     },
     "description": {
-        "full": "LMS365 is LMS inside the Microsoft Teams!",
-        "short": "LMS365"
+        "full": "LMS365 (qa) is LMS inside the Microsoft Teams!",
+        "short": "LMS365 (qa)"
     },
     "icons": {
         "outline": "color_icon.png",
@@ -20,17 +20,17 @@
     },
     "staticTabs": [
         {
-            "contentUrl": "https://teams.365.systems/Tab?view=dashboard",
-            "name": "Dashboard",
+            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard",
+            "name": "Dashboard (qa)",
             "scopes": [
                 "personal"
             ],
-            "entityId": "lms365-dashboard"
+            "entityId": "lms365-qa-dashboard"
         }
     ],
     "bots": [
         {
-            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
+            "botId": "f6b810a1-3d32-4faf-9757-3315519eefd8",
             "scopes": [
                 "personal"
             ],
@@ -51,7 +51,7 @@
     ],
     "configurableTabs": [
         {
-          "configurationUrl": "https://teams.365.systems/TabConfiguration",
+          "configurationUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/TabConfiguration",
           "canUpdateConfiguration": true,
           "scopes": [
             "team"
@@ -60,7 +60,7 @@
     ],
     "composeExtensions": [
         {
-            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
+            "botId": "f6b810a1-3d32-4faf-9757-3315519eefd8",
             "commands": [
                 {
                     "id": "searchCmd",
@@ -81,11 +81,11 @@
         }
     ],
     "name": {
-        "full": "LMS365",
-        "short": "LMS365"
+        "full": "LMS365 (qa)",
+        "short": "LMS365 (qa)"
     },
     "accentColor": "#FFFFFF",
     "validDomains": [
-        "teams.365.systems"
+        "lms365-msteams-web-qa-ne.azurewebsites.net"
     ]
 }

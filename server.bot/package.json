@@ -1,11 +1,11 @@
 {
-  "name": "ms-teams",
+  "name": "ef.lms365.ms-teams.bot",
   "version": "1.0.2",
   "description": "Microsoft Teams integration",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/tsc",
-    "build-watch": "./node_modules/.bin/tsc --watch",
+    "build": "webpack --config webpack.config.js --env=Development",
+    "build-tsc": "./node_modules/.bin/tsc",
     "start": "node dist/app.js --env=Development"
   },
   "author": "",
@@ -19,7 +19,12 @@
     "lms365": "1.0.4",
     "node-env-file": "^0.1.8",
     "request-promise": "^4.2.2",
-    "restify": "^6.0.1",
-    "typescript": "^2.5.3"
+    "restify": "^6.0.1"
+  },
+  "devDependencies": {
+    "fork-ts-checker-webpack-plugin": "^0.2.10",
+    "typescript": "^2.5.3",
+    "ts-loader": "2.0.3",
+    "webpack": "2.5.1"
   }
 }

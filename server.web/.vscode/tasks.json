@@ -1,0 +1,22 @@
+{
+    "args": ["run"],
+    "command": "npm",
+    "echoCommand": true,
+    "isShellCommand": true,
+    "tasks": [
+        {
+            "args": ["build"],
+            "isBuildCommand": true,
+            "suppressTaskName": true,
+            "taskName": "build"
+        },
+        {   
+            "args": ["test"],
+            "isTestCommand": true,
+            "isBackground": false,
+            "suppressTaskName": true,
+            "taskName": "test"
+        }
+    ],
+    "version": "0.1.0"
+}

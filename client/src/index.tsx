@@ -1,0 +1,36 @@
+import * as React from 'react';
+import * as ReactDom from 'react-dom';
+import { SignInView } from './components/sign-in-view';
+import { TabConfigurationView } from './components/tab-configuration-view';
+import { WebPartView, WebPartType } from './components/web-part-view';
+
+const container = document.getElementById('main');
+
+function renderWebPartView(type: WebPartType) {
+    ReactDom.render(
+        <WebPartView type={type} />,
+        container);
+}
+
+export function renderSignInView() {
+    ReactDom.render(<SignInView />, container);
+}
+
+export function renderTabConfigurationView() {
+    ReactDom.render(
+        <TabConfigurationView />,
+        container
+    );
+}
+
+export function renderCourseView() {
+    renderWebPartView(WebPartType.Course);
+}
+
+export function renderCourseCatalogView() {
+    renderWebPartView(WebPartType.CourseCatalogV2);
+}
+
+export function renderDashboardView() {
+    renderWebPartView(WebPartType.Dashboard);
+}
