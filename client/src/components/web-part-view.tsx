@@ -60,18 +60,14 @@ export class WebPartView extends View<WebPartProps> {
         super.componentDidMount();
         this.registerScript();
 
-        $(document).on('click', '.ef--link-course', function () {
+        $(document).on('click', '.ef--link-course, a[target="_top"]', function () {
             const href = $(this).attr('href');
 
-            (document as any).location = 'Course?webUrl=' + encodeURIComponent(href);
-
-            return false;
-        });
-
-        $(document).on('click', 'a[target="_top"]', function () {
-            const href = $(this).attr('href');
-
-            (document as any).location = href;
+            if ($(this).hasClass('ef--link-course')) {
+                (document as any).location = 'Course?webUrl=' + encodeURIComponent(href);
+            } else {
+                (document as any).location = href;
+            }
 
             return false;
         });
@@ -79,9 +75,5 @@ export class WebPartView extends View<WebPartProps> {
 
     public componentDidUpdate() {
         this.registerScript();
-    }
-
-    protected get renderPanel(): boolean {
-        return false;
     }
 }

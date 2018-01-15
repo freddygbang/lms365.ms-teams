@@ -20,7 +20,7 @@
     },
     "staticTabs": [
         {
-            "contentUrl": "https://lms365-msteams-bot-qa-ne.azurewebsites.net/Tab?view=dashboard",
+            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard",
             "name": "Dashboard (qa)",
             "scopes": [
                 "personal"
@@ -51,7 +51,7 @@
     ],
     "configurableTabs": [
         {
-          "configurationUrl": "https://lms365-msteams-bot-qa-ne.azurewebsites.net/TabConfiguration",
+          "configurationUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/TabConfiguration",
           "canUpdateConfiguration": true,
           "scopes": [
             "team"
@@ -86,6 +86,6 @@
     },
     "accentColor": "#FFFFFF",
     "validDomains": [
-        "lms365-msteams-bot-qa-ne.azurewebsites.net"
+        "lms365-msteams-web-qa-ne.azurewebsites.net"
     ]
 }
