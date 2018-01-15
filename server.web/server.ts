@@ -40,6 +40,10 @@ const server = http.createServer((request, response) => {
             }
         }
 
+        if (!viewName && parsedUrl.query['webUrl']) {
+            viewName = 'Course';
+        }
+
         response.writeHead(200, { 'Content-Type': 'text/html' });
         response.write(`
 <html>

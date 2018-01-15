@@ -13,6 +13,7 @@
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
     "ef.lms365": "^1.0.5",
+    "jquery": "^3.2.1",
     "msteams-ui-components-react": "^0.3.7",
     "msteams-ui-icons-react": "^0.2.1",
     "react": "^16.2.0",
@@ -28,6 +29,7 @@
     "style-loader": "^0.19.1",
     "ts-loader": "2.0.3",
     "typestyle": "^1.6.0",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.2",
     "webpack": "2.5.1"
   }

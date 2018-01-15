@@ -93,22 +93,29 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                 </style>
                 {
                     ((this.state.theme != null) && content)
-                        ? (
-                            <TeamsComponentContext fontSize={16} theme={this.state.theme}>
-                                <ConnectedComponent render={(props) => {
-                                    return (
-                                        <Panel>
-                                            <PanelBody>
-                                                {content(props.context)}
-                                            </PanelBody>
-                                        </Panel>
-                                    );
-                                }} />
-                            </TeamsComponentContext>
+                        ? (this.renderPanel
+                            ? (
+                                <TeamsComponentContext fontSize={16} theme={this.state.theme}>
+                                    <ConnectedComponent render={(props) => {
+                                        return (
+                                            <Panel>
+                                                <PanelBody>
+                                                    {content(props.context)}
+                                                </PanelBody>
+                                            </Panel>
+                                        );
+                                    }} />
+                                </TeamsComponentContext>
+                            )
+                            : content(null)
                         )
                         : <Loading />
                 }
             </div>
         );
+    }
+
+    protected get renderPanel(): boolean {
+        return true;
     }
 }

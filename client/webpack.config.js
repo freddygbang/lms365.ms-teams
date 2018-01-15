@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var enableMinification = arguments['p'];
 
@@ -53,7 +54,8 @@ module.exports = function (environment) {
                 minChunks: (x) => /node_modules/.test(x.context),
                 name: 'client-vendors'
             }),
-            new ExtractTextPlugin({ filename: './[name].packed.css' })
+            new ExtractTextPlugin({ filename: './[name].packed.css' }),
+            //new UglifyJsPlugin()
         ],
         resolve: {
             extensions: ['.js', '.ts', '.tsx'],

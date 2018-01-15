@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as $ from 'jquery';
 import { AppType, GlobalConfig } from 'ef.lms365';
 import { View } from './view';
 
@@ -58,9 +59,29 @@ export class WebPartView extends View<WebPartProps> {
     public componentDidMount() {
         super.componentDidMount();
         this.registerScript();
+
+        $(document).on('click', '.ef--link-course', function () {
+            const href = $(this).attr('href');
+
+            (document as any).location = 'Course?webUrl=' + encodeURIComponent(href);
+
+            return false;
+        });
+
+        $(document).on('click', 'a[target="_top"]', function () {
+            const href = $(this).attr('href');
+
+            (document as any).location = href;
+
+            return false;
+        });
     }
 
     public componentDidUpdate() {
         this.registerScript();
+    }
+
+    protected get renderPanel(): boolean {
+        return false;
     }
 }
