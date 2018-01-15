@@ -30,7 +30,7 @@
     ],
     "bots": [
         {
-            "botId": "374fe10d-cc23-4734-abea-1664f4bac0ee",
+            "botId": "30294224-891c-4ea2-8ad3-07e7464a3a3f",
             "scopes": [
                 "personal"
             ],
@@ -60,7 +60,7 @@
     ],
     "composeExtensions": [
         {
-            "botId": "374fe10d-cc23-4734-abea-1664f4bac0ee",
+            "botId": "30294224-891c-4ea2-8ad3-07e7464a3a3f",
             "commands": [
                 {
                     "id": "searchCmd",
