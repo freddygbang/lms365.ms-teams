@@ -1,23 +1,31 @@
 ﻿{
-    "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
-    "manifestVersion": "1.0",
+    "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.2",
     "id": "d136f17e-df84-47f2-97a4-13aa24c0c647",
-    "version": "2.2",
+    "version": "1.0.0.0",
     "packageName": "com.LMS365",
     "developer": {
         "name": "ELEARNINGFORCE International",
-        "websiteUrl": "https://www.elearningforce.com",
-        "privacyUrl": "https://www.elearningforce.com",
-        "termsOfUseUrl": "https://www.elearningforce.com"
+        "websiteUrl": "https://www.elearningforce.com/teams",
+        "privacyUrl": "https://www.elearningforce.com/privacy",
+        "termsOfUseUrl": "https://www.elearningforce.com/terms"
+    },
+    "name": {
+        "short": "LMS365",
+        "full": "LMS365 | Learning Management System for the Modern Digital Workplace!"
     },
     "description": {
-        "full": "LMS365 is LMS inside the Microsoft Teams!",
-        "short": "LMS365"
+        "full": "LMS365 for Microsoft Teams enables learners to find, take and track their Training directly inside Teams as well as using our Intelligent BOT 'Elle' to look for Training Courses and Training Plans available in the catalog.",
+        "short": "Search and share training within teams"
     },
     "icons": {
-        "outline": "color_icon.png",
-        "color": "color_icon.png"
+        "outline": "lms365-teams-outline-icon-20x20px.png",
+        "color": "lms365-teams-color-icon-96x96px.png"
     },
+    "accentColor": "#3A576A",
+    "validDomains": [
+        "teams.365.systems"
+    ],
     "staticTabs": [
         {
             "contentUrl": "https://teams.365.systems/Tab?view=dashboard",
@@ -30,20 +38,20 @@
     ],
     "bots": [
         {
-            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
+            "botId": "f4e7539d-707a-48d8-9d8c-b8d2557ed242",
             "scopes": [
                 "personal"
             ],
-            "commandLists": [
-                {
-                    "commands": [
-                        {
-                            "description": "Displays this help message for 1:1 chat",
-                            "title": "help"
-                        }
-                    ],
+            "commandLists": [   
+                {                    
                     "scopes": [
                         "personal"
+                    ],
+                    "commands": [
+                        {
+                            "description": "What can I help you with?",
+                            "title": "help"
+                        }
                     ]
                 }
             ]
@@ -60,12 +68,12 @@
     ],
     "composeExtensions": [
         {
-            "botId": "f33b7e67-8730-427d-adc6-2349e8cc4897",
+            "botId": "f4e7539d-707a-48d8-9d8c-b8d2557ed242",
             "commands": [
                 {
                     "id": "searchCmd",
-                    "description": "Search courses by keywords",
                     "title": "Search",
+                    "description": "Search for training",
                     "initialRun": true,
                     "parameters": [{
                         "name": "searchKeyword",
@@ -73,19 +81,6 @@
                         "title": "Keywords"
                     }]
                 }
-            ],
-            "scopes": [
-                "personal",
-                "team"
             ]
         }
-    ],
-    "name": {
-        "full": "LMS365",
-        "short": "LMS365"
-    },
-    "accentColor": "#FFFFFF",
-    "validDomains": [
-        "teams.365.systems"
-    ]
-}
+    ]}
