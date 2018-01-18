@@ -1,4 +1,4 @@
-import { Encryptor } from './encryptor';
+import { Encryptor } from '../encryptor';
 
 interface User {
     objectId: string;

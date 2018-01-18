@@ -1,8 +1,8 @@
 import { Message, Session, EntityRecognizer } from 'botbuilder';
 import { ActionDefinition } from './action';
 import { LmsContext } from '../lms-context';
-import { Helper } from '../helper';
 import { CourseCatalog } from '../models';
+import { CommonHelper } from '../helpers/common-helper';
 
 export const SelectCourseCatalog: ActionDefinition = {
     action: (session: Session, lmsContext: LmsContext, args: any) => {
@@ -15,7 +15,7 @@ export const SelectCourseCatalog: ActionDefinition = {
             lmsContext.modelStorages.courseCatalogs.getByUrl(url)
                 .then(courseCatalog => {
                     if (courseCatalog) {
-                        lmsContext.userStorage.set(Helper.Keys.CourseCatalog, courseCatalog);
+                        lmsContext.userStorage.set(CommonHelper.Keys.CourseCatalog, courseCatalog);
                         
                         session.send(`Course Catalog was selected (url: ${courseCatalog.url}).`);
                     } else {

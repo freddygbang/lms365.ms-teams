@@ -1,6 +1,6 @@
-import { Helper } from './helper';
 import { LmsContext } from './lms-context';
 import { Course, CourseCatalog } from './models';
+import { CommonHelper } from './helpers/common-helper';
 
 export abstract class StorageBase<T> {
     private readonly _lmsContext: LmsContext;
@@ -36,26 +36,19 @@ export class CourseStorage extends StorageBase<Course> {
     }
 
     protected createModel(source: any): Course {
-        return {
-            description: source.Description,
-            id: source.Id,
-            imageUrl: source.ImageUrl,
-            longDescription: source.LongDescription,
-            title: source.Title,
-            url: source.SharepointWeb ? source.SharepointWeb.Url : null
-        };
+        return this.lmsContext.modelCreator.createCourse(source);
     }
 
     public async getAll(): Promise<Course[]> {
-        return this.getModels(Helper.Urls.Course.getAll(this.courseCatalogId));
+        return this.getModels(CommonHelper.Urls.Course.getAll(this.courseCatalogId));
     }
 
     public async getByKeyword(keyword: string): Promise<Course[]> {
-        return this.getModels(Helper.Urls.Course.getByKeyword(this.courseCatalogId, keyword));
+        return this.getModels(CommonHelper.Urls.Course.getByKeyword(this.courseCatalogId, keyword));
     }
 
     public async getByType(courseType: string): Promise<Course[]> {
-        return this.getModels(Helper.Urls.Course.getByType(this.courseCatalogId, courseType));
+        return this.getModels(CommonHelper.Urls.Course.getByType(this.courseCatalogId, courseType));
     }
 }
 
@@ -65,19 +58,15 @@ export class CourseCatalogStorage extends StorageBase<CourseCatalog> {
     }
 
     protected createModel(source: any): CourseCatalog {
-        return {
-            id: source.Id,
-            title: source.Title,
-            url: source.SharepointWeb ? source.SharepointWeb.Url : null
-        };
+        return this.lmsContext.modelCreator.createCourseCatalog(source);
     }
 
     public async getAll(): Promise<CourseCatalog[]> {
-        return this.getModels(Helper.Urls.CourseCatalog.getAll());
+        return this.getModels(CommonHelper.Urls.CourseCatalog.getAll());
     }
 
     public async getByUrl(url: string): Promise<CourseCatalog> {
-        const result = await this.getModels(Helper.Urls.CourseCatalog.getByUrl(url));
+        const result = await this.getModels(CommonHelper.Urls.CourseCatalog.getByUrl(url));
 
         return result.length == 1 ? result[0] : null;
     }

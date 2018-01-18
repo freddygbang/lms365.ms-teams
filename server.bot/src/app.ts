@@ -54,7 +54,7 @@ connector.onQuery('searchCmd', (message: IMessage, query, callback) => {
                     : lmsContext.modelStorages.courses.getAll();
 
                 promise.then(courses => {
-                    const cards = courses.map(x => lmsContext.attachmentBuilders.courses.build(x).toAttachment());
+                    const cards = courses.map((x, i) => lmsContext.attachmentBuilders.courses.build(x).toAttachment());
                     const response = teamBuilder.ComposeExtensionResponse.result('list').attachments(cards).toResponse();
 
                     callback(null, response, 200);

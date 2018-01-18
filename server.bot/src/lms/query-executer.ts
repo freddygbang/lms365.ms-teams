@@ -3,9 +3,9 @@ import { ChannelAccount, TeamsChatConnector } from 'botbuilder-teams';
 import * as requestExecutor from 'request-promise';
 import { Storage, Query } from 'lms365';
 import { EnvironmentConfigProvider } from './environment-config-provider';
-import { Helper } from './helper';
 import { LmsContext } from './lms-context';
-import { UserToken, UserTokenHelper } from './user-token-helper';
+import { CommonHelper } from './helpers/common-helper';
+import { UserToken, UserTokenHelper } from './helpers/user-token-helper';
 
 export abstract class QueryExecuterByContext/* implements QueryExecuter*/ {
     private _tokenPromise: Promise<any>;
@@ -110,10 +110,10 @@ export class QueryExecuter extends QueryExecuterByContext {
     }
 
     protected get token(): any {
-        return this._lmsContext.userStorage.get(Helper.Keys.UserToken) as UserToken;
+        return this._lmsContext.userStorage.get(CommonHelper.Keys.UserToken) as UserToken;
     }
 
     protected set token(value: any) {
-        this._lmsContext.userStorage.set(Helper.Keys.UserToken, value);
+        this._lmsContext.userStorage.set(CommonHelper.Keys.UserToken, value);
     }
 }

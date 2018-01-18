@@ -1,10 +1,10 @@
-import { Message, Session, EntityRecognizer } from 'botbuilder';
+import { AttachmentLayout, EntityRecognizer, Message, Session, IIsAttachment } from 'botbuilder';
 import { ActionDefinition } from './action';
 import { LmsContext } from '../lms-context';
 import { Course } from '../models';
 
 export const SearchCourseList: ActionDefinition = {
-    action: (session: Session, lmsContext: LmsContext, args: any) => {
+    action: async (session: Session, lmsContext: LmsContext, args: any) => {
         const courseTypeEntity = EntityRecognizer.findEntity(args.intent.entities, 'CourseType');
         let promise: Promise<Course[]>;
 
@@ -36,25 +36,30 @@ export const SearchCourseList: ActionDefinition = {
             promise = lmsContext.modelStorages.courses.getAll();
         }
 
-        promise.then(courses => {
-                if (courses.length) {
-                    for (let i = 0; i < courses.length; i++) {
-                        const course = courses[i];
-                        const attachment = lmsContext.attachmentBuilders.courses.build(course);
-                        const message = new Message(session).addAttachment(attachment);
-    
-                        session.send(message);
-                    }
-                } else {
-                    session.send('There are no courses to display.');
-                }
+        const courses = await promise;
 
-                session.endDialog();
-            })
-            .catch(x => {
-                console.log(x);
-                session.send('Opps!!!');
-            });
+        if (courses.length) {
+            const attachments: IIsAttachment[] = [];
+            const message = new Message(session);
+            const pagedCourses = courses.slice(0, 10);
+
+            for (let i = 0; i < pagedCourses.length; i++) {
+                const course = pagedCourses[i];
+                const attachment = lmsContext.attachmentBuilders.courses.buildForList(course, i);
+
+                attachments.push(attachment);
+            }
+
+            message
+                .attachmentLayout(AttachmentLayout.carousel)
+                .attachments(attachments);
+
+            session.send(message);
+        } else {
+            session.send('There are no courses to display.');
+        }
+
+        session.endDialog();
     },
     key: 'SearchCourseList',
     title: 'Search Courses'

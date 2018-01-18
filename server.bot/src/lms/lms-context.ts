@@ -1,11 +1,15 @@
 import { IMessage, Session } from 'botbuilder';
 import { EnvironmentConfig } from 'lms365';
 import { AttachmentBuilderFactory } from './attachment-builders';
-import { Helper } from './helper';
+import { ModelCreator } from './model-creator';
+import { ModelFilterFactory } from './model-filters';
 import { ModelStorageFactory } from './model-storages';
+import { ModelMetadataProviderFactory, ModelMetadataProvider } from './model-metadata-providers';
 import { CourseCatalog } from './models';
 import { QueryExecuter } from './query-executer';
 import { UserStorage } from './user-storage';
+import { CommonHelper } from './helpers/common-helper';
+import { Formatter } from './formatter';
 
 interface LmsContextProps {
     environmentConfig: EnvironmentConfig;
@@ -16,6 +20,8 @@ interface LmsContextProps {
 
 export class LmsContext {
     private readonly _attachmentBuilders: AttachmentBuilderFactory;
+    private readonly _modelCreator: ModelCreator;
+    private readonly _modelMetadataProviders: ModelMetadataProviderFactory;
     private readonly _modelStorages: ModelStorageFactory;
     private readonly _queryExecuter: QueryExecuter;
     private readonly _props: LmsContextProps;
@@ -23,7 +29,12 @@ export class LmsContext {
     public constructor(props: LmsContextProps) {
         this._props = props;
 
+        const modelFilters = new ModelFilterFactory();
+        const formatter = new Formatter();
+
         this._attachmentBuilders = new AttachmentBuilderFactory(this);
+        this._modelCreator = new ModelCreator();
+        this._modelMetadataProviders = new ModelMetadataProviderFactory(modelFilters, formatter);
         this._modelStorages = new ModelStorageFactory(this);
         this._queryExecuter = new QueryExecuter(this);
     }
@@ -33,7 +44,7 @@ export class LmsContext {
     }
 
     public get courseCatalog(): CourseCatalog {
-        return this.userStorage.get(Helper.Keys.CourseCatalog);
+        return this.userStorage.get(CommonHelper.Keys.CourseCatalog);
     }
 
     public get environmentConfig(): EnvironmentConfig {
@@ -42,6 +53,14 @@ export class LmsContext {
 
     public get message(): IMessage {
         return this._props.message;
+    }
+
+    public get modelCreator(): ModelCreator {
+        return this._modelCreator;
+    }
+
+    public get modelMetadataProviders(): ModelMetadataProviderFactory {
+        return this._modelMetadataProviders;
     }
 
     public get modelStorages(): ModelStorageFactory {

@@ -1,7 +1,6 @@
 import { Message, Session, EntityRecognizer } from 'botbuilder';
 import { ActionDefinition } from './action';
 import { LmsContext } from '../lms-context';
-import { Helper } from '../helper';
 import { Course } from '../models';
 
 export const ShowCourseCatalogList: ActionDefinition = {
