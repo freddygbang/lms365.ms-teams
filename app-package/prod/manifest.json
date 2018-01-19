@@ -12,17 +12,17 @@
     },
     "name": {
         "short": "LMS365",
-        "full": "LMS365 | Learning Management System for the Modern Digital Workplace!"
+        "full": "LMS365 | Learning Management for the Modern Digital Workplace!"
     },
     "description": {
         "full": "LMS365 for Microsoft Teams enables learners to find, take and track their Training directly inside Teams as well as using our Intelligent BOT 'Elle' to look for Training Courses and Training Plans available in the catalog.",
-        "short": "Search and share training within teams"
+        "short": "Easily insert your LMS365 Training into your channels and chats"
     },
     "icons": {
         "outline": "lms365-teams-outline-icon-20x20px.png",
         "color": "lms365-teams-color-icon-96x96px.png"
     },
-    "accentColor": "#3A576A",
+    "accentColor": "#E16232",
     "validDomains": [
         "teams.365.systems"
     ],
@@ -34,7 +34,15 @@
                 "personal"
             ],
             "entityId": "lms365-dashboard"
-        }
+        },
+        {
+            "contentUrl": "https://teams.365.systems/Tab?view=training",
+            "name": "Training",
+            "scopes": [
+                "personal"
+            ],
+            "entityId": "lms365-training"
+        }        
     ],
     "bots": [
         {
