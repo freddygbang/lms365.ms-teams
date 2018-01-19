@@ -35,6 +35,7 @@ const server = http.createServer((request, response) => {
                     viewName = 'CourseCatalog';
                     break;
                 case 'course':
+                case 'training':
                     viewName = 'Course';
                     break;
             }

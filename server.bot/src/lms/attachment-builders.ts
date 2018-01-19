@@ -6,8 +6,10 @@ import { LmsContext } from './lms-context';
 import { Course, CourseCatalog, CourseType } from './models';
 import { DeepLinkBuilder } from './deep-link-builder';
 import { CommonHelper } from './helpers/common-helper';
+import { ResourceSet } from './resource-set';
 
 const courseFields = CommonHelper.Fields.Course;
+const resourceSet = ResourceSet.instance;
 
 const allCourseFields = [
     courseFields.CourseId,
@@ -49,6 +51,7 @@ export class CourseAttachmentBuilder {
         const session = lmsContext.session;
         const courseImageUrl = CommonHelper.Urls.Course.getImage(lmsContext.tenantId, lmsContext.environmentConfig, course);
         const courseUrl = DeepLinkBuilder.buildCourseLink(course.url);
+        const viewLinkTitle = (course.type != CourseType.TrainingPlan) ? resourceSet.ViewCourse : resourceSet.ViewTrainingPlan;
         const fields = (course.type != CourseType.Webinar) ? allCourseFields : allWebinarFields;
         const fieldsHtml = fields
             .map(x => {
@@ -74,7 +77,7 @@ export class CourseAttachmentBuilder {
 ${fieldsHtml}
             `)
             .images([CardImage.create(session, courseImageUrl)])
-            .buttons([CardAction.openUrl(session, courseUrl, 'View Course')]);
+            .buttons([CardAction.openUrl(session, courseUrl, viewLinkTitle)]);
     }
 }
 

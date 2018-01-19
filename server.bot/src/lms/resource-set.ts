@@ -63,6 +63,14 @@ export class ResourceSet {
         return 'Training Plan ID';
     }
 
+    public get ViewCourse(): string {
+        return 'View Course';
+    }
+
+    public get ViewTrainingPlan(): string {
+        return 'View Training Plan';
+    }
+
     public get Webinar(): string {
         return 'Webinar';
     }

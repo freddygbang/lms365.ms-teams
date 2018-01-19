@@ -1,5 +1,5 @@
 export class DeepLinkBuilder {
-    private static tabId: string = 'lms365-dashboard';
+    private static tabId: string = 'lms365-training';
 
     private static get botId(): string {
         return process.env.MICROSOFT_APP_ID;
