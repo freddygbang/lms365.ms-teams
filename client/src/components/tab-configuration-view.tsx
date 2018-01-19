@@ -61,9 +61,13 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
             } else {
                 const viewProps = viewPropsByViewType[viewType];
 
+                let queryParams = viewType == ViewType.Dashboard
+                    ? 'LeaderBoard=false&Transcript=false'
+                    : 'webUrl=' + encodeURIComponent(webUrl);
+
                 microsoftTeams.settings.setSettings({
                     entityId: `lms365${viewProps.key}${encodeURIComponent(webUrl)}`,
-                    contentUrl: `${document.location.origin}/Tab?view=${viewProps.key}&webUrl=${encodeURIComponent(webUrl)}`,
+                    contentUrl: `${document.location.origin}/Tab?view=${viewProps.key}&${queryParams}`,
                     suggestedDisplayName: tabName                    
                 });
             }
