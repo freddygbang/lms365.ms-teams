@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as $ from 'jquery';
+import { Context } from 'msteams-ui-components-react';
 import { AppType, GlobalConfig } from 'ef.lms365';
 import { View } from './view';
 
@@ -45,7 +46,31 @@ export class WebPartView extends View<WebPartProps> {
         }
     }
 
-    protected renderContent(): JSX.Element {
+    protected initializeMsTeams(context: any) {
+        const pathName = window.location.pathname;
+
+        if (context && context.subEntityId && (pathName.indexOf('Tab') != -1)) {
+            const config = JSON.parse(context.subEntityId);
+            const viewName = config.view;
+            const webUrl = config.webUrl;
+
+            switch (viewName) {
+                case 'dashboard':
+                    (document as any).location = 'Dashboard';
+                    break;
+                case 'course-catalog':
+                    (document as any).location = 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);
+                    break;
+                case 'course':
+                    (document as any).location = 'Course?webUrl=' + encodeURIComponent(webUrl);
+                    break;
+            }
+        } else {
+            super.initializeMsTeams(context);
+        }
+    }
+
+    protected renderContent(context: Context): JSX.Element {
         const webPartName = webPartNameByType[this.props.type];
 
         return (
@@ -75,5 +100,9 @@ export class WebPartView extends View<WebPartProps> {
 
     public componentDidUpdate() {
         this.registerScript();
+    }
+
+    protected get allowRenderPanel(): boolean {
+        return false;
     }
 }

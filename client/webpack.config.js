@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+var StatsPlugin = require('stats-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var enableMinification = arguments['p'];
@@ -12,8 +13,17 @@ module.exports = function (environment) {
     return {
         context: path.resolve(__dirname, '.'),
         entry: {
-            'client': ['es6-shim', './src/index']
+            'client': ['./src/index']
         },
+        externals: [
+            (context, request, callback) => {
+                if (/^.*fonts.*$/.test(request)) {
+                    return callback(null, 'commonjs ' + request);
+                }
+
+                callback();
+            }
+        ],
         module: {
             rules: [
                 { test: /\.css?$/, use: ExtractTextPlugin.extract({ use: 'css-loader' }) },
@@ -55,7 +65,10 @@ module.exports = function (environment) {
                 name: 'client-vendors'
             }),
             new ExtractTextPlugin({ filename: './[name].packed.css' }),
-            //new UglifyJsPlugin()
+            new StatsPlugin('stats.json', {
+                chunkModules: true
+            }),
+            new UglifyJsPlugin()
         ],
         resolve: {
             extensions: ['.js', '.ts', '.tsx'],

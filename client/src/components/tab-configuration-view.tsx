@@ -45,8 +45,8 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
         return <Radiobutton label={viewProps.title} onSelected={() => this.setState({ viewType: viewType })} selected={this.state.viewType == viewType} value={viewType} />;
     }
 
-    protected initializeMsTeams() {
-        super.initializeMsTeams();
+    protected initialize() {
+        super.initialize();
 
         const microsoftTeams = (window as any).microsoftTeams;
 

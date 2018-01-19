@@ -29,35 +29,37 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
         this.state = { userAuthenticationStatus: UserAuthenticationStatus.Undefined } as any;
     }
 
-    protected initializeMsTeams() {
-        const authenticationConfig = AuthenticationConfig.instance;
+    protected initialize() {
         const microsoftTeams = (window as any).microsoftTeams;
 
         microsoftTeams.initialize();
         microsoftTeams.getContext(context => {
-            const config = Helper.getAdalConfig(context);
+            this.initializeMsTeams(context);
+        });
+    }
 
-            if (context) {
-                window['_spPageContextInfo'] = {
-                    currentCultureName: context.locale,
-                    currentUICultureName: context.locale
-                };
+    protected initializeMsTeams(context: any) {
+        const authenticationConfig = AuthenticationConfig.instance;
+        const config = Helper.getAdalConfig(context);
+
+        if (context) {
+            window['_spPageContextInfo'] = {
+                currentCultureName: context.locale,
+                currentUICultureName: context.locale
+            };
+        }
+
+        const authenticationContext = new AuthenticationContext(config);
+
+        authenticationContext.acquireToken(authenticationConfig.resourceId, (error, token) => {
+            if (error || !token) {
+                this.setState({ userAuthenticationStatus: UserAuthenticationStatus.NotAuthenticated });
+            } else {
+                this.setState({ userAuthenticationStatus: UserAuthenticationStatus.Authenticated });
             }
-
-            const authenticationContext = new AuthenticationContext(config);
-
-            authenticationContext.acquireToken(authenticationConfig.resourceId, (error, token) => {
-                if (error || !token) {
-                    this.setState({ userAuthenticationStatus: UserAuthenticationStatus.NotAuthenticated });
-                } else {
-                    this.setState({ userAuthenticationStatus: UserAuthenticationStatus.Authenticated });
-                }
-            });
         });
 
-        microsoftTeams.getContext(context => {
-            this.setState({ theme: themeByName[context.theme] || ThemeStyle.Light });
-        });
+        this.setState({ theme: themeByName[context.theme] || ThemeStyle.Light });
     }
 
     protected renderContent(context: Context): JSX.Element {
@@ -65,7 +67,7 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
     }
 
     public componentDidMount() {
-        this.initializeMsTeams();
+        this.initialize();
     }
 
     public render(): JSX.Element {
@@ -97,11 +99,15 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                             <TeamsComponentContext fontSize={16} theme={this.state.theme}>
                                 <ConnectedComponent render={(props) => {
                                     return (
-                                        <Panel>
-                                            <PanelBody>
-                                                {content(props.context)}
-                                            </PanelBody>
-                                        </Panel>
+                                        this.allowRenderPanel
+                                        ? (
+                                            <Panel>
+                                                <PanelBody>
+                                                    {content(props.context)}
+                                                </PanelBody>
+                                            </Panel>
+                                        )
+                                        : content(props.context)
                                     );
                                 }} />
                             </TeamsComponentContext>
@@ -110,5 +116,9 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                 }
             </div>
         );
+    }
+
+    protected get allowRenderPanel(): boolean {
+        return true;
     }
 }

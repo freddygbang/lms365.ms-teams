@@ -5,21 +5,21 @@ export class DeepLinkBuilder {
         return process.env.MICROSOFT_APP_ID;
     }
 
+    private static buildDeepLink(tabData:any):string{
+        const context = { subEntityId: JSON.stringify(tabData) };
+
+        return `https://teams.microsoft.com/l/entity/28:${DeepLinkBuilder.botId}/${DeepLinkBuilder.tabId}?conversationType=chat&context=${encodeURIComponent(JSON.stringify(context))}`;
+    }
+
     public static buildCourseLink(courseUrl: string): string {
-        let tabData = { view: 'course', webUrl: courseUrl };
-        let link = DeepLinkBuilder.buildDeepLink(tabData);
-        return link;
+        const tabData = { view: 'course', webUrl: courseUrl };
+
+        return DeepLinkBuilder.buildDeepLink(tabData);
     }
 
     public static buildCourseCatalogLink(courseCatalogUrl: string): string {
-        let tabData = { view: 'course-catalog', webUrl: courseCatalogUrl };
-        let link = DeepLinkBuilder.buildDeepLink(tabData);
-        return link;
-    }
+        const tabData = { view: 'course-catalog', webUrl: courseCatalogUrl };
 
-    private static buildDeepLink(tabData:any):string{
-        let context = { subEntityId: JSON.stringify(tabData) };
-        let link = `https://teams.microsoft.com/l/entity/28:${DeepLinkBuilder.botId}/${DeepLinkBuilder.tabId}?conversationType=chat&context=${encodeURIComponent(JSON.stringify(context))}`;
-        return link;
+        return DeepLinkBuilder.buildDeepLink(tabData);
     }
 }
