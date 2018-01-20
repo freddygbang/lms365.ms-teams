@@ -1,5 +1,4 @@
-﻿var arguments = require('yargs').argv;
-var path = require('path');
+﻿var path = require('path');
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, PrimaryButton } from 'msteams-ui-components-react';
+import { Context, PrimaryButton, SecondaryButton, Surface } from 'msteams-ui-components-react';
 
 interface LoginButtonProps {
     context: Context;
@@ -37,10 +37,12 @@ export class LoginButton extends React.Component<LoginButtonProps, any> {
         };
 
         return (
-            <div>
-                <div style={styles.section}>You are not signed in LMS 365</div>
+            <Surface>
+                <div style={styles.section}>Whoops, it looks like we need you to sign in to LMS365 again!</div>
                 <PrimaryButton onClick={this.handleClick}>Sign in</PrimaryButton>
-            </div>
+                <div style={styles.section}>Or just in case you only installed the LMS365 app but don't have LMS365 yet why not visit our website for further information on how to get LMS365 for your organisation?</div>
+                <SecondaryButton onClick={()=>window.open('https://www.elearningforce.com/teams')}>Tell me More</SecondaryButton> 
+            </Surface>
         );
     }
 }

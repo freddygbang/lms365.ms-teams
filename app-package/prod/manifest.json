@@ -28,7 +28,7 @@
     ],
     "staticTabs": [
         {
-            "contentUrl": "https://teams.365.systems/Tab?view=dashboard",
+            "contentUrl": "https://teams.365.systems/Tab?view=dashboard&LeaderBoard=false&Transcript=false",
             "name": "Dashboard",
             "scopes": [
                 "personal"

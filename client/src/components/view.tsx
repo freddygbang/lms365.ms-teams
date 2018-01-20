@@ -39,6 +39,10 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
     }
 
     protected initializeMsTeams(context: any) {
+        if (this.redirectToViewFromContext(context)) {
+            return;
+        }
+
         const authenticationConfig = AuthenticationConfig.instance;
         const config = Helper.getAdalConfig(context);
 
@@ -60,6 +64,30 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
         });
 
         this.setState({ theme: themeByName[context.theme] || ThemeStyle.Light });
+    }
+
+    protected redirectToViewFromContext(context: any): boolean {
+        const pathName = window.location.pathname;
+
+        if (context && context.subEntityId && (pathName.indexOf('Tab') != -1)) {
+            const config = JSON.parse(context.subEntityId);
+            const viewName = config.view;
+            const webUrl = config.webUrl;
+
+            switch (viewName) {
+                case 'dashboard':
+                    (document as any).location = 'Dashboard';
+                    return true;
+                case 'course-catalog':
+                    (document as any).location = 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);
+                    return true;
+                case 'course':
+                    (document as any).location = 'Course?webUrl=' + encodeURIComponent(webUrl);
+                    return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     protected renderContent(context: Context): JSX.Element {

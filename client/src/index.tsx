@@ -3,6 +3,7 @@ import * as ReactDom from 'react-dom';
 import { SignInView } from './components/sign-in-view';
 import { TabConfigurationView } from './components/tab-configuration-view';
 import { WebPartView, WebPartType } from './components/web-part-view';
+import { TrainingView } from './components/training-view';
 
 const container = document.getElementById('main');
 
@@ -33,4 +34,8 @@ export function renderCourseCatalogView() {
 
 export function renderDashboardView() {
     renderWebPartView(WebPartType.Dashboard);
+}
+
+export function renderTrainingView() {
+    ReactDom.render(<TrainingView />, container);
 }

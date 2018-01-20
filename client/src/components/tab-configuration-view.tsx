@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, Input, Radiobutton, RadiobuttonGroup, ThemeStyle } from 'msteams-ui-components-react';
+import { Context, Input, Radiobutton, RadiobuttonGroup, ThemeStyle, Surface } from 'msteams-ui-components-react';
 import { View } from './view';
 
 enum ViewType {
@@ -12,10 +12,11 @@ export interface TabConfigurationState {
     theme?: ThemeStyle;
     url?: string;
     viewType?: ViewType;
+    name?: string;
 }
 
 const viewPropsByViewType = {
-    [ViewType.Course]: { key: 'course', title: 'Course' },
+    [ViewType.Course]: { key: 'course', title: 'Course / Training Plan' },
     [ViewType.CourseCatalog]: { key: 'course-catalog', title: 'Course Catalog' },
     [ViewType.Dashboard]: { key: 'dashboard', title: 'Dashboard' },
 };
@@ -26,7 +27,7 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
 
         this.state = {
             theme: ThemeStyle.Light,
-            viewType: ViewType.Dashboard
+            viewType: ViewType.Dashboard            
         };
     }
 
@@ -53,16 +54,21 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
         microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
             const viewType = this.state.viewType;
             const webUrl = this.state.url;
+            const tabName = this.state.name;
 
-            if ((viewType != ViewType.Dashboard) && !webUrl) {
+            if (((viewType != ViewType.Dashboard) && !webUrl) || !tabName) {
                 saveEvent.notifyFailure();
             } else {
                 const viewProps = viewPropsByViewType[viewType];
 
+                let queryParams = viewType == ViewType.Dashboard
+                    ? 'LeaderBoard=false&Transcript=false'
+                    : 'webUrl=' + encodeURIComponent(webUrl);
+
                 microsoftTeams.settings.setSettings({
                     entityId: `lms365${viewProps.key}${encodeURIComponent(webUrl)}`,
-                    contentUrl: `${document.location.origin}/Tab?view=${viewProps.key}&webUrl=${encodeURIComponent(webUrl)}`,
-                    suggestedDisplayName: `LMS365 ${viewProps.title}`
+                    contentUrl: `${document.location.origin}/Tab?view=${viewProps.key}&${queryParams}`,
+                    suggestedDisplayName: tabName                    
                 });
             }
 
@@ -76,20 +82,28 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
         const { rem, font } = context;
         const { sizes } = font;
         const styles = {
-            section: {...sizes.title2, marginTop: rem(1.4), marginBottom: rem(1.4)}
+            section: {...sizes.title2, marginTop: rem(1.4), marginBottom: rem(1.4)},
+            input: {
+                paddingLeft: rem(0.5),
+                paddingRight: rem(0.5)                
+            },
+            surface: { backgroundColor: 'transparent' }
         };
 
         return (
-            <div>
+            <Surface style={styles.surface}>
+                <div style={styles.section}>Tab name:</div>
+                <Input onChange={x => this.setState({ name: x.target.value })} placeholder="Tab name" style={styles.input} value={this.state.name} />
+
                 <div style={styles.section}>View:</div>
                 <RadiobuttonGroup>
                     {this.renderRadioButton(ViewType.Dashboard)}
-                    {this.renderRadioButton(ViewType.CourseCatalog)}
+                    {/* {this.renderRadioButton(ViewType.CourseCatalog)} */}
                     {this.renderRadioButton(ViewType.Course)}
                 </RadiobuttonGroup>
 
                 {this.renderInputSection(styles)}
-            </div>
+            </Surface>
         );
     }
 }
