@@ -1,5 +1,5 @@
 import { LmsContext } from './lms-context';
-import { Course, CourseCatalog } from './models';
+import { Course, CourseCatalog, CourseType } from './models';
 import { CommonHelper } from './helpers/common-helper';
 
 export abstract class StorageBase<T> {
@@ -47,8 +47,12 @@ export class CourseStorage extends StorageBase<Course> {
         return this.getModels(CommonHelper.Urls.Course.getByKeyword(this.courseCatalogId, keyword));
     }
 
-    public async getByType(courseType: string): Promise<Course[]> {
+    public async getByType(courseType: CourseType): Promise<Course[]> {
         return this.getModels(CommonHelper.Urls.Course.getByType(this.courseCatalogId, courseType));
+    }
+
+    public async getByTypeAndCategoryName(courseType: CourseType, categoryName: string): Promise<Course[]> {
+        return this.getModels(CommonHelper.Urls.Course.getByTypeAndCategoryName(this.courseCatalogId, courseType, categoryName));
     }
 }
 
@@ -76,7 +80,7 @@ export class CourseCatalogStorage extends StorageBase<CourseCatalog> {
     //         id: `id_${index}`,
     //         title: `Course Catalog ${index}`,
     //         url: `http://cc${index}.com`
-    //     };
+    //     } as any;
     // }
 
     // protected createModels(count?: number): CourseCatalog[] {

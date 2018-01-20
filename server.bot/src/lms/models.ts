@@ -15,6 +15,7 @@ export interface Course {
 }
 
 export interface CourseCatalog {
+    description: string;
     id: string;
     title: string;
     url: string;

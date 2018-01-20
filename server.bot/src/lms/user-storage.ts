@@ -1,5 +1,5 @@
 import { Session } from 'botbuilder';
-import { Storage } from 'lms365';
+import { Storage } from 'ef.lms365';
 
 export class UserStorage implements Storage {
     private readonly _session: Session;

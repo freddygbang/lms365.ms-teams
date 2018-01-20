@@ -1,16 +1,29 @@
-import { Message, Session, EntityRecognizer } from 'botbuilder';
+import { AttachmentLayout, Message, Session, EntityRecognizer, IIsAttachment } from 'botbuilder';
 import { ActionDefinition } from './action';
 import { LmsContext } from '../lms-context';
-import { Course } from '../models';
+import { Course, CourseCatalog } from '../models';
+import { ArrayHelper } from '../helpers/array-helper';
 
 export const ShowCourseCatalogList: ActionDefinition = {
     action: (session: Session, lmsContext: LmsContext, args: any) => {
         lmsContext.modelStorages.courseCatalogs.getAll()
             .then(courseCatalogs => {
-                for (let i = 0; i < courseCatalogs.length; i++) {
-                    const courseCatalog = courseCatalogs[i];
-                    const attachment = lmsContext.attachmentBuilders.courseCatalogs.build(courseCatalog);
-                    const message = new Message(session).addAttachment(attachment);
+                const chunks = ArrayHelper.split<CourseCatalog>(courseCatalogs, 10);
+
+                for (let i = 0; i < chunks.length; i++) {
+                    const attachments: IIsAttachment[] = [];
+                    const chunk = chunks[i];
+
+                    for (let j = 0; j < chunk.length; j++) {
+                        const courseCatalog = chunk[j];
+                        const attachment = lmsContext.attachmentBuilders.courseCatalogs.buildListItem(courseCatalog, i * 10 + j, courseCatalogs.length);
+
+                        attachments.push(attachment);
+                    }
+
+                    const message = new Message(session)
+                        .attachmentLayout(AttachmentLayout.carousel)
+                        .attachments(attachments);
 
                     session.send(message);
                 }

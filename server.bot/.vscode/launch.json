@@ -7,7 +7,7 @@
                 "outFiles": [
                     "${workspaceRoot}/dist/**/*.js"
                 ],
-                "program": "${workspaceRoot}/dist/server.packed.js",
+                "program": "${workspaceRoot}/dist/app.js",
                 "request": "launch",
                 "sourceMaps": true,
                 "stopOnEntry": true,

@@ -45,6 +45,7 @@ export class ModelCreator {
         }
 
         return {
+            description: source.SharepointWeb ? source.SharepointWeb.Description : (source.Web ? source.Web.Description : null),
             id: source.Id,
             title: source.Title,
             url: source.SharepointWeb ? source.SharepointWeb.Url : (source.Web ? source.Web.Url : null)

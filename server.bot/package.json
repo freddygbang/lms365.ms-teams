@@ -16,7 +16,7 @@
     "botbuilder-teams": "^0.1.6",
     "crypto-js": "^3.1.9-1",
     "dotenv-extended": "^2.0.1",
-    "lms365": "1.0.4",
+    "ef.lms365": "^1.0.8",
     "node-env-file": "^0.1.8",
     "request-promise": "^4.2.2",
     "restify": "^6.0.1"

@@ -1,7 +1,7 @@
 import { IChatConnectorAddress, IMessage, Session } from 'botbuilder';
 import { ChannelAccount, TeamsChatConnector } from 'botbuilder-teams';
 import * as requestExecutor from 'request-promise';
-import { Storage, Query } from 'lms365';
+import { Storage, Query } from 'ef.lms365';
 import { EnvironmentConfigProvider } from './environment-config-provider';
 import { LmsContext } from './lms-context';
 import { CommonHelper } from './helpers/common-helper';

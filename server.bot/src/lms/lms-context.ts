@@ -1,5 +1,5 @@
 import { IMessage, Session } from 'botbuilder';
-import { EnvironmentConfig } from 'lms365';
+import { EnvironmentConfig } from 'ef.lms365';
 import { AttachmentBuilderFactory } from './attachment-builders';
 import { ModelCreator } from './model-creator';
 import { ModelFilterFactory } from './model-filters';

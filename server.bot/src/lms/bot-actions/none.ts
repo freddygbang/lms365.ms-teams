@@ -5,7 +5,7 @@ import { Course } from '../models';
 
 export const None: ActionDefinition = {
     action: (session: Session, lmsContext: LmsContext, args: any, next: () => void) => {
-        session.send(`Sorry! I don't understand you.`);
+        session.send(`I am sorry, I didn’t really understand that, can you try rephrase the question? Alternatively type ‘Help’ and I will try and help you further.`);
 
         next();
     },
