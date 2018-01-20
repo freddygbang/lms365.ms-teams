@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, Input, Radiobutton, RadiobuttonGroup, ThemeStyle } from 'msteams-ui-components-react';
+import { Context, Input, Radiobutton, RadiobuttonGroup, ThemeStyle, Surface } from 'msteams-ui-components-react';
 import { View } from './view';
 
 enum ViewType {
@@ -86,11 +86,12 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
             input: {
                 paddingLeft: rem(0.5),
                 paddingRight: rem(0.5)                
-            }
+            },
+            surface: { backgroundColor: 'transparent' }
         };
 
         return (
-            <div>
+            <Surface style={styles.surface}>
                 <div style={styles.section}>Tab name:</div>
                 <Input onChange={x => this.setState({ name: x.target.value })} placeholder="Tab name" style={styles.input} value={this.state.name} />
 
@@ -102,7 +103,7 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
                 </RadiobuttonGroup>
 
                 {this.renderInputSection(styles)}
-            </div>
+            </Surface>
         );
     }
 }

@@ -46,30 +46,6 @@ export class WebPartView extends View<WebPartProps> {
         }
     }
 
-    protected initializeMsTeams(context: any) {
-        const pathName = window.location.pathname;
-
-        if (context && context.subEntityId && (pathName.indexOf('Tab') != -1)) {
-            const config = JSON.parse(context.subEntityId);
-            const viewName = config.view;
-            const webUrl = config.webUrl;
-
-            switch (viewName) {
-                case 'dashboard':
-                    (document as any).location = 'Dashboard';
-                    break;
-                case 'course-catalog':
-                    (document as any).location = 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);
-                    break;
-                case 'course':
-                    (document as any).location = 'Course?webUrl=' + encodeURIComponent(webUrl);
-                    break;
-            }
-        } else {
-            super.initializeMsTeams(context);
-        }
-    }
-
     protected renderContent(context: Context): JSX.Element {
         const webPartName = webPartNameByType[this.props.type];
 
