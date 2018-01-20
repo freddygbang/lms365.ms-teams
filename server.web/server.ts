@@ -52,7 +52,11 @@ const server = http.createServer((request, response) => {
 <html>
     <head>
         <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.16/js/adal.min.js"></script>
-        <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.js"></script>
+        <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.js"></script>        
+        <style type="text/css">
+            .--efLms365Dashboard #lms365 .item-wrapper .user-photo { display: none; }
+            .--efLms365Dashboard .k-grid .k-hierarchy-cell { padding: 0 0 0 0.6em; }
+        </style>
     </head>
     <body>
         <div id="main" />
