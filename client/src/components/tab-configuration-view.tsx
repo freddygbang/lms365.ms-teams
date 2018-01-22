@@ -62,7 +62,7 @@ export class TabConfigurationView extends View<any, TabConfigurationState> {
                 const viewProps = viewPropsByViewType[viewType];
 
                 let queryParams = viewType == ViewType.Dashboard
-                    ? 'LeaderBoard=false&Transcript=false'
+                    ? 'LeaderBoard=false&Transcript=false&CoursesEnded=false'
                     : 'webUrl=' + encodeURIComponent(webUrl);
 
                 microsoftTeams.settings.setSettings({

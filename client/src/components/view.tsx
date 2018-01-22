@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Context, ThemeStyle, TeamsComponentContext, ConnectedComponent, Panel, PanelBody } from 'msteams-ui-components-react';
 import { AuthenticationConfig } from 'ef.lms365';
-import { Loading } from './loading';
 import { LoginButton } from './login-button';
 import { Helper } from '../infrastructure/helper';
 
@@ -119,6 +118,10 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                             body { overflow: auto !important; }
                             .--efLms365Dashboard #lms365 .lbUserInfo .user-photo { display: none; }
                             .--efLms365Dashboard .k-grid .k-hierarchy-cell { padding: 0 0 0 0.6em; }
+                            .--efLms365Dashboard #lms365 .courseCertificateDownload a { cursor:default; }
+                            .--efLms365Dashboard #lms365 .courseCertificateDownload .course-icon-text { display:none; }
+                            .--efLms365Dashboard #lms365 .lCoursesCertificate a { cursor:default; }
+                            .--efLms365Course-page .course-certificate a { display:none; }
                         `
                     }
                 </style>
@@ -141,7 +144,7 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                                 }} />
                             </TeamsComponentContext>
                         )
-                        : <Loading />
+                        : null
                 }
             </div>
         );

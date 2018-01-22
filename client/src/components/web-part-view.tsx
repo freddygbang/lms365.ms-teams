@@ -72,6 +72,10 @@ export class WebPartView extends View<WebPartProps> {
 
             return false;
         });
+
+        $(document).on('click', 'a.course-certificate, .lCoursesCertificate a', function(){
+            return false;
+        });
     }
 
     public componentDidUpdate() {

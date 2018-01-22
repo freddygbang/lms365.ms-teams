@@ -28,7 +28,7 @@
     ],
     "staticTabs": [
         {
-            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard&LeaderBoard=false&Transcript=false",
+            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard&LeaderBoard=false&Transcript=false&CoursesEnded=false",
             "name": "Dashboard",
             "scopes": [
                 "personal"
