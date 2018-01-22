@@ -116,9 +116,9 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                 <style>
                     {
                         `
-                            body {
-                                overflow: auto !important;
-                            }
+                            body { overflow: auto !important; }
+                            .--efLms365Dashboard #lms365 .lbUserInfo .user-photo { display: none; }
+                            .--efLms365Dashboard .k-grid .k-hierarchy-cell { padding: 0 0 0 0.6em; }
                         `
                     }
                 </style>
