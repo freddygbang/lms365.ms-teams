@@ -3,6 +3,19 @@ import { CourseType } from './models';
 export class ResourceSet {
     public static instance: ResourceSet = new ResourceSet();
 
+    public getCourseTypeName(type: CourseType): string {
+        switch (type) {
+            case CourseType.ELearning:
+                return this.ELearning_CourseType;
+            case CourseType.ClassRoom:
+                return this.ClassRoom_CourseType;
+            case CourseType.TrainingPlan:
+                return this.TrainingPlan;
+            case CourseType.Webinar:
+                return this.Webinar;
+        }
+    }
+
     public get Category(): string {
         return 'Category';
     }
@@ -12,7 +25,7 @@ export class ResourceSet {
     }
 
     public get ClassRoom_CourseType(): string {
-        return 'Classroom &amp; Blended Training';
+        return 'Classroom and Blended';
     }
 
     public get CourseID(): string {
@@ -59,8 +72,16 @@ export class ResourceSet {
         return 'Training Plan';
     }
 
+    public get TrainingPlans(): string {
+        return 'Training Plans';
+    }
+
     public get TrainingPlanID(): string {
         return 'Training Plan ID';
+    }
+
+    public get Url(): string {
+        return 'Url';
     }
 
     public get ViewCourse(): string {
@@ -73,18 +94,5 @@ export class ResourceSet {
 
     public get Webinar(): string {
         return 'Webinar';
-    }
-
-    public getCourseTypeName(type: CourseType): string {
-        switch (type) {
-            case CourseType.ELearning:
-                return this.ELearning_CourseType;
-            case CourseType.ClassRoom:
-                return this.ClassRoom_CourseType;
-            case CourseType.TrainingPlan:
-                return this.TrainingPlan;
-            case CourseType.Webinar:
-                return this.Webinar;
-        }
     }
 }

@@ -4,19 +4,6 @@ export interface Grouping<T> {
 }
 
 export class ArrayHelper {
-    private static internalSelectMany<T>(result: T[], array: T[], childrenGetter: (x: T) => T[]) {
-        for (let i = 0; i < array.length; i++) {
-            const value = array[i];
-            const children = childrenGetter(value);
-
-            result.push(value);
-
-            if (children) {
-                ArrayHelper.internalSelectMany<T>(result, children, childrenGetter);
-            }
-        }
-    }
-
     public static distinct<T>(array: T[], comparer: (x: T, y: T) => boolean) {
         var result = [];
 
@@ -69,10 +56,14 @@ export class ArrayHelper {
         }
     }
 
-    public static selectMany<T>(array: T[], childrenGetter: (x: T) => T[]): T[] {
+    public static selectMany<TSource, TResult>(array: TSource[], selector: (x: TSource) => TResult[]): TResult[] {
         const result = [];
 
-        ArrayHelper.internalSelectMany(result, array, childrenGetter);
+        for (let i = 0; i < array.length; i++) {
+            const value = array[i];
+
+            result.push(...selector(value));
+        }
 
         return result;
     }

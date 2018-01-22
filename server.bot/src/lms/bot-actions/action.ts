@@ -10,9 +10,8 @@ export interface ActionDefinition {
 }
 
 export const wrapAction = (actionDefinition: ActionDefinition) =>
-    (session: Session, args: any, next: any) => {
-        LmsContextProvider.instance.get(session)
-            .then(lmsContext => {
-                actionDefinition.action(session, lmsContext, args, next);
-            });
+    async (session: Session, args: any, next: any) => {
+        const lmsContext = await LmsContextProvider.instance.get(session);
+
+        actionDefinition.action(session, lmsContext, args, next);
     };

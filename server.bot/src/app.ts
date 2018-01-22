@@ -31,38 +31,26 @@ bot.dialog(SearchCourseList.key, wrapAction(SearchCourseList)).triggerAction({ m
 bot.dialog(SelectCourseCatalog.key, wrapAction(SelectCourseCatalog)).triggerAction({ matches : SelectCourseCatalog.key });
 bot.dialog(ShowCourseCatalogList.key, wrapAction(ShowCourseCatalogList)).triggerAction({ matches: ShowCourseCatalogList.key });
 
-bot.on('conversationUpdate', (inputMessage) => {
-    if (inputMessage.membersAdded) {
-        bot.loadSession(inputMessage.address, async (error, session: Session) => {
-            const lmsContext = await LmsContextProvider.instance.get(session, inputMessage);
-            const attachment = lmsContext.attachmentBuilders.greeting.build();
-            const message = new Message(session).addAttachment(attachment);
+bot.dialog('adhocDialog', async (session, args) => {
+    const lmsContext = await LmsContextProvider.instance.get(session);
+    const attachment = lmsContext.attachmentBuilders.greeting.build();
+    const message = new Message(session).addAttachment(attachment);
 
-            session.send(message);
-        });
-    }
+    session.send(message);
 });
 
 connector.onQuery('searchCmd', (message: IMessage, query, callback) => {
-    bot.loadSession(message.address, (error, session: Session) => {
+    bot.loadSession(message.address, async (error, session: Session) => {
         const searchKeyword = (query.parameters[0].name == 'searchKeyword') ? query.parameters[0].value : null;
+        const lmsContext = await LmsContextProvider.instance.get(session, message);
+        const promise = searchKeyword
+            ? lmsContext.modelStorages.courses.getByKeyword(searchKeyword)
+            : lmsContext.modelStorages.courses.getAll();
+        const courses = await promise;
+        const cards = courses.map((x, i) => lmsContext.attachmentBuilders.courses.build(x).toAttachment());
+        const response = teamBuilder.ComposeExtensionResponse.result('list').attachments(cards).toResponse();
 
-        LmsContextProvider.instance.get(session, message)
-            .then(lmsContext => {
-                const promise = searchKeyword
-                    ? lmsContext.modelStorages.courses.getByKeyword(searchKeyword)
-                    : lmsContext.modelStorages.courses.getAll();
-
-                promise.then(courses => {
-                    const cards = courses.map((x, i) => lmsContext.attachmentBuilders.courses.build(x).toAttachment());
-                    const response = teamBuilder.ComposeExtensionResponse.result('list').attachments(cards).toResponse();
-
-                    callback(null, response, 200);
-                })
-                .catch(x => {
-                    console.log(x);
-                });
-            });
+        callback(null, response, 200);
     });
 });
 

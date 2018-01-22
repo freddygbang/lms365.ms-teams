@@ -12,7 +12,7 @@ export class LmsContextProvider {
         const tenantId = message.sourceEvent.tenant.id;
         const userStorage = new UserStorage(session);
         const environmentConfigProvider = new EnvironmentConfigProvider(session, userStorage);
-        const environmentConfig = await environmentConfigProvider.getByTenantId(tenantId);
+        const environmentConfig = await environmentConfigProvider.getById(tenantId);
 
         // const tenantId = null;
         // const userStorage = new UserStorage(session);
