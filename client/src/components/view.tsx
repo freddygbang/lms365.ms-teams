@@ -39,7 +39,9 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
     }
 
     protected initializeMsTeams(context: any) {
-        if (this.redirectToViewFromContext(context)) {
+        const redirectViewUrl = this.getRedirectViewUrlFromContext(context);
+        if (redirectViewUrl) {
+            document.location.href = redirectViewUrl;
             return;
         }
 
@@ -66,28 +68,27 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
         this.setState({ theme: themeByName[context.theme] || ThemeStyle.Light });
     }
 
-    protected redirectToViewFromContext(context: any): boolean {
+    protected getRedirectViewUrlFromContext(context: any): string {
         const pathName = window.location.pathname;
 
         if (context && context.subEntityId && (pathName.indexOf('Tab') != -1)) {
-            const config = JSON.parse(context.subEntityId);
-            const viewName = config.view;
-            const webUrl = config.webUrl;
-
-            switch (viewName) {
-                case 'dashboard':
-                    (document as any).location = 'Dashboard';
-                    return true;
-                case 'course-catalog':
-                    (document as any).location = 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);
-                    return true;
-                case 'course':
-                    (document as any).location = 'Course?webUrl=' + encodeURIComponent(webUrl);
-                    return true;
-            }
-        } else {
-            return false;
+            return this.getRedirectViewUrl(context.subEntityId);
         }
+    }
+
+    protected getRedirectViewUrl(configJson: string):string {
+        const config = JSON.parse(configJson);
+        const viewName = config.view;
+        const webUrl = config.webUrl;
+
+        switch (viewName) {
+            case 'dashboard':
+                return 'Dashboard';                
+            case 'course-catalog':
+                return 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);                
+            case 'course':
+                return 'Course?webUrl=' + encodeURIComponent(webUrl);                
+        }        
     }
 
     protected renderContent(context: Context): JSX.Element {
