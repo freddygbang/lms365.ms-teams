@@ -1,11 +1,11 @@
 import { LmsContext } from './lms-context';
-import { Course, CourseCatalog, CourseType } from './models';
+import { Course, CourseCatalog, CourseCategory, CourseType } from './models';
 import { CommonHelper } from './helpers/common-helper';
 
 export abstract class StorageBase<T> {
     private readonly _lmsContext: LmsContext;
 
-    protected constructor(lmsContext: LmsContext) {
+    public constructor(lmsContext: LmsContext) {
         this._lmsContext = lmsContext;
     }
 
@@ -31,16 +31,16 @@ export abstract class StorageBase<T> {
 }
 
 export class CourseStorage extends StorageBase<Course> {
-    public constructor(lmsContext: LmsContext) {
-        super(lmsContext);
-    }
-
     protected createModel(source: any): Course {
         return this.lmsContext.modelCreator.createCourse(source);
     }
 
     public async getAll(): Promise<Course[]> {
         return this.getModels(CommonHelper.Urls.Course.getAll(this.courseCatalogId));
+    }
+
+    public async getByCategoryName(categoryName: string): Promise<Course[]> {
+        return this.getModels(CommonHelper.Urls.Course.getByCategoryName(this.courseCatalogId, categoryName));
     }
 
     public async getByKeyword(keyword: string): Promise<Course[]> {
@@ -57,10 +57,6 @@ export class CourseStorage extends StorageBase<Course> {
 }
 
 export class CourseCatalogStorage extends StorageBase<CourseCatalog> {
-    public constructor(lmsContext: LmsContext) {
-        super(lmsContext);
-    }
-
     protected createModel(source: any): CourseCatalog {
         return this.lmsContext.modelCreator.createCourseCatalog(source);
     }
@@ -108,17 +104,33 @@ export class CourseCatalogStorage extends StorageBase<CourseCatalog> {
     // }
 }
 
+export class CourseCategoryStorage extends StorageBase<CourseCategory> {
+    protected createModel(source: any): CourseCategory {
+        return this.lmsContext.modelCreator.createCourseCategory(source);
+    }
+
+    public async getAll(): Promise<CourseCategory[]> {
+        return this.getModels(CommonHelper.Urls.CourseCategory.getAll(this.courseCatalogId));
+    }
+}
+
 export class ModelStorageFactory {
     private readonly _courseCatalogs: CourseCatalogStorage;
+    private readonly _courseCategories: CourseCategoryStorage;
     private readonly _courses: CourseStorage;
 
     public constructor(lmsContext: LmsContext) {
         this._courseCatalogs = new CourseCatalogStorage(lmsContext);
+        this._courseCategories = new CourseCategoryStorage(lmsContext);
         this._courses = new CourseStorage(lmsContext);
     }
 
     public get courseCatalogs(): CourseCatalogStorage {
         return this._courseCatalogs;
+    }
+
+    public get courseCategories(): CourseCategoryStorage {
+        return this._courseCategories;
     }
 
     public get courses(): CourseStorage {

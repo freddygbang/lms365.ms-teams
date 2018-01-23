@@ -7,6 +7,19 @@ import { ArrayHelper } from '../helpers/array-helper';
 
 const resourceSet = ResourceSet.instance;
 
+function getCourseType(value: string): CourseType {
+    switch (value) {
+        case 'e-Learning':
+            return CourseType.ELearning;
+        case 'Webinar':
+            return CourseType.Webinar;
+        case 'Training Plan':
+            return CourseType.TrainingPlan;
+        case 'Classroom & Blended':
+            return CourseType.ClassRoom;
+    }
+}
+
 export class SearchCourseListActionHandler {
     public static readonly instance: SearchCourseListActionHandler = new SearchCourseListActionHandler();
 
@@ -14,7 +27,7 @@ export class SearchCourseListActionHandler {
         const allCategories = ArrayHelper.selectMany(courses, x => x.categories);
         const uniqueCategories = ArrayHelper.groupBy<CourseCategory>(allCategories, x => x.id).map(x => x.values[0]);
         const message = new Message(session)
-            .addAttachment(lmsContext.attachmentBuilders.courseCategories.buildList(queryableCourseType, uniqueCategories));
+            .addAttachment(lmsContext.attachmentBuilders.courseCategories.buildListWithCourseTypeFilter(queryableCourseType, uniqueCategories));
 
         session.send(message);
     }
@@ -41,45 +54,34 @@ export class SearchCourseListActionHandler {
                 this.sendMessageAboutCategories(session, lmsContext, queryableCourseType, courses);
             }
         } else {
-            session.send('There are no courses to display.');
+            session.send(resourceSet.CourseList_NoItems);
         }
     }
 
     public async handle(session: Session, lmsContext: LmsContext, args: any) {
         const categoryEntity = EntityRecognizer.findEntity(args.intent.entities, 'Category');
         const courseTypeEntity = EntityRecognizer.findEntity(args.intent.entities, 'CourseType');
-        let categoryName: string = null;
-        let courseType: CourseType = null;
+        const categoryName: string = categoryEntity ? (categoryEntity as any).entity : null;
+        const courseType: CourseType = courseTypeEntity
+            ? getCourseType((courseTypeEntity as any).resolution.values[0])
+            : null;
         let promise: Promise<Course[]>;
 
-        if (courseTypeEntity) {
-            const courseTypeValue = (courseTypeEntity as any).resolution.values[0];
 
-            switch (courseTypeValue) {
-                case 'e-Learning':
-                    courseType = CourseType.ELearning;
-                    break;
-                case 'Webinar':
-                    courseType = CourseType.Webinar;
-                    break;
-                case 'Training Plan':
-                    courseType = CourseType.TrainingPlan;
-                    break;
-                case 'Classroom & Blended':
-                    courseType = CourseType.ClassRoom;
-                    break;
-            }
+        if (courseType && categoryName) {
+            session.send(resourceSet.CourseList_LoadingByCourseTypeAndCategoryName(courseType, categoryName));
 
-            categoryName = categoryEntity ? (categoryEntity as any).entity : null;
+            promise = lmsContext.modelStorages.courses.getByTypeAndCategoryName(courseType, categoryName);
+        } else if (courseType) {
+            session.send(resourceSet.CourseList_LoadingByCourseType(courseType));
 
-            session.send(`Displaying ${resourceSet.getCourseTypeName(courseType)} courses...`);
-            console.dir('categoryName' + categoryName);
+            promise = lmsContext.modelStorages.courses.getByType(courseType);
+        } else if (categoryName) {
+            session.send(resourceSet.CourseList_LoadingByCategoryName(categoryName));
 
-            promise = categoryName
-                ? lmsContext.modelStorages.courses.getByTypeAndCategoryName(courseType, categoryName)
-                : lmsContext.modelStorages.courses.getByType(courseType);
+            promise = lmsContext.modelStorages.courses.getByCategoryName(categoryName);
         } else {
-            session.send(`Displaying all courses...`);
+            session.send(resourceSet.CourseList_LoadingAll);
 
             promise = lmsContext.modelStorages.courses.getAll();
         }

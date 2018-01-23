@@ -7,6 +7,7 @@ import { wrapAction } from './lms/bot-actions/action';
 import { SearchCourseList } from './lms/bot-actions/search-course-list';
 import { SelectCourseCatalog } from './lms/bot-actions/select-course-catalog';
 import { ShowCourseCatalogList } from './lms/bot-actions/show-course-catalog-list';
+import { ShowCourseCategoryList } from './lms/bot-actions/show-course-category-list';
 import { Greeting, Help } from './lms/bot-actions/greeting';
 import { LmsContextProvider } from './lms/lms-context-provider';
 import { None } from './lms/bot-actions/none';
@@ -30,6 +31,7 @@ bot.dialog(Help.key, wrapAction(Help)).triggerAction({ matches: Help.key });
 bot.dialog(SearchCourseList.key, wrapAction(SearchCourseList)).triggerAction({ matches: SearchCourseList.key });
 bot.dialog(SelectCourseCatalog.key, wrapAction(SelectCourseCatalog)).triggerAction({ matches : SelectCourseCatalog.key });
 bot.dialog(ShowCourseCatalogList.key, wrapAction(ShowCourseCatalogList)).triggerAction({ matches: ShowCourseCatalogList.key });
+bot.dialog(ShowCourseCategoryList.key, wrapAction(ShowCourseCategoryList)).triggerAction({ matches: ShowCourseCategoryList.key });
 
 bot.dialog('adhocDialog', async (session, args) => {
     const lmsContext = await LmsContextProvider.instance.get(session);

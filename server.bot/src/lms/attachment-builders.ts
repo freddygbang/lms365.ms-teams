@@ -2,6 +2,7 @@ import { CardAction, CardImage, IAttachment, IIsAttachment, Message, Session, Th
 import { AppInfo, AppType } from 'ef.lms365';
 import { SelectCourseCatalog } from './bot-actions/select-course-catalog';
 import { ShowCourseCatalogList } from './bot-actions/show-course-catalog-list';
+import { ShowCourseCategoryList } from './bot-actions/show-course-category-list';
 import { LmsContext } from './lms-context';
 import { Course, CourseCatalog, CourseType, CourseCategory } from './models';
 import { DeepLinkBuilder } from './deep-link-builder';
@@ -43,7 +44,11 @@ export class CourseAttachmentBuilder {
             .title(course.title)
             .text(course.description)
             .images([CardImage.create(session, courseImageUrl)])
-            .buttons([CardAction.openUrl(session, DeepLinkBuilder.buildCourseLink(course.url), 'View Course')]);
+            .buttons([
+                CardAction.openUrl(
+                    session, DeepLinkBuilder.buildCourseLink(course.url),
+                    (course.type != CourseType.TrainingPlan) ? resourceSet.ViewTrainingPlan : resourceSet.ViewTrainingPlan)
+            ]);
     }
 
     public buildListItem(course: Course, index: number, allItemCount: number): IIsAttachment {
@@ -113,12 +118,12 @@ export class CourseCategoryAttachmentBuilder {
         this._lmsContext = lmsContext;
     }
 
-    public buildList(queryableCourseType: CourseType, categories: CourseCategory[]): IIsAttachment {
+    public buildListWithCourseTypeFilter(queryableCourseType: CourseType, categories: CourseCategory[]): IIsAttachment {
         const lmsContext = this._lmsContext;
         const session = lmsContext.session;
         const messageBuilder = (category: CourseCategory) => (queryableCourseType != null)
-            ? `Show me ${resourceSet.getCourseTypeName(queryableCourseType)} Courses with ${category.name} category`
-            : `Show me Courses with ${category.name} category`;
+            ? `Show ${CommonHelper.escape(resourceSet.getCourseTypeName(queryableCourseType))} Courses with ${category.name} category`
+            : `Show Courses with ${category.name} category`;
         const buttons = categories.map(x => {
             const message = messageBuilder(x);
 
@@ -126,7 +131,19 @@ export class CourseCategoryAttachmentBuilder {
         });
 
         return new ThumbnailCard(session)
-            .title('Search result contains more than 10 courses, please make search by categories to reduce number of courses.')
+            .title(resourceSet.MoreThanPageCourseCount)
+            .buttons(buttons);
+    }
+
+    public buildList(categories: CourseCategory[]): IIsAttachment {
+        const lmsContext = this._lmsContext;
+        const session = lmsContext.session;
+        const buttons = categories.map(x => {
+            return CardAction.imBack(session, `Show Courses with ${x.name} category`, x.name);
+        });
+
+        return new ThumbnailCard(session)
+            .title(resourceSet.CourseCategoryList_Title)
             .buttons(buttons);
     }
 }
@@ -144,28 +161,19 @@ export class GreetingAttachmentBuilder {
         const user = session.message.user;
         const messageBuilder = (courseType: CourseType) =>
             (courseType != CourseType.TrainingPlan)
-                ? `Show ${resourceSet.getCourseTypeName(courseType)} Courses`
+                ? `Show ${CommonHelper.escape(resourceSet.getCourseTypeName(courseType))} Courses`
                 : `Show ${resourceSet.TrainingPlans}`;
 
         return new ThumbnailCard(session)
-            .title(`Hello ${user.name}!`)
-            .text(`
-I can help you:
-
-<ul>
-    <li>Select your default Course Catalog</li>
-    <li>Find e-Learning, Classroom & Blended and Webinar Courses</li>
-    <li>Find Training Plans</li>
-</ul>
-
-Just click any of the buttons below or simply type ‘show elearning’ to get a list of e-Learning Courses, ‘show webinar’ for Webinar Courses etc.
-            `)
+            .title(resourceSet.Greeting_Title(user.name))
+            .text(resourceSet.Greeting)
             .buttons([
                 CardAction.imBack(session, ShowCourseCatalogList.title, ShowCourseCatalogList.title),
                 CardAction.imBack(session, messageBuilder(CourseType.ELearning), messageBuilder(CourseType.ELearning)),
                 CardAction.imBack(session, messageBuilder(CourseType.Webinar), messageBuilder(CourseType.Webinar)),
                 CardAction.imBack(session, messageBuilder(CourseType.TrainingPlan), messageBuilder(CourseType.TrainingPlan)),
-                CardAction.imBack(session, messageBuilder(CourseType.ClassRoom), messageBuilder(CourseType.ClassRoom))
+                CardAction.imBack(session, CommonHelper.escape(messageBuilder(CourseType.ClassRoom)), messageBuilder(CourseType.ClassRoom)),
+                CardAction.imBack(session, ShowCourseCategoryList.title, ShowCourseCategoryList.title)
             ]);
     }
 }

@@ -25,14 +25,14 @@ export abstract class QueryExecuterByContext/* implements QueryExecuter*/ {
     public async execute<T>(query: Query): Promise<T> {
         if (this.token && this.isTokenValid(this.token)) {
             try {
-                return await this.executeWithContext<T>(query);
+                return this.executeWithContext<T>(query);
             } catch (error) {
                 if (!this.isTokenValidByError(error)) {
                     console.log('Token is invalid.');
 
                     this.token = null;
 
-                    return await this.execute<T>(query);
+                    return this.execute<T>(query);
                 } else {
                     throw error;
                 }

@@ -2,7 +2,10 @@ import { Message, Session, EntityRecognizer } from 'botbuilder';
 import { ActionDefinition } from './action';
 import { LmsContext } from '../lms-context';
 import { CourseCatalog } from '../models';
+import { ResourceSet } from '../resource-set';
 import { CommonHelper } from '../helpers/common-helper';
+
+const resourceSet = ResourceSet.instance;
 
 export const SelectCourseCatalog: ActionDefinition = {
     action: (session: Session, lmsContext: LmsContext, args: any) => {
@@ -17,13 +20,13 @@ export const SelectCourseCatalog: ActionDefinition = {
                     if (courseCatalog) {
                         lmsContext.userStorage.set(CommonHelper.Keys.CourseCatalog, courseCatalog);
                         
-                        session.send(`Course Catalog was selected (url: ${courseCatalog.url}).`);
+                        session.send(resourceSet.CourseCatalogList_WasSelected(courseCatalog.url));
                     } else {
-                        session.send(`Course Catalog is not found.`);
+                        session.send(resourceSet.CourseCatalogList_NotFound);
                     }
                 });
         } else {
-            session.send('You need to use url of Course Catalog.');
+            session.send(resourceSet.CourseCatalogList_EmptyUrl);
         }
 
         session.endDialog();

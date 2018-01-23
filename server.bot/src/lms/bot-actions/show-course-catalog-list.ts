@@ -32,5 +32,5 @@ export const ShowCourseCatalogList: ActionDefinition = {
             });
     },
     key: 'ShowCourseCatalogList',
-    title: 'Show Course Catalog List'
+    title: 'Show Course Catalogs'
 };

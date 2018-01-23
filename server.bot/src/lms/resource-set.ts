@@ -20,16 +20,56 @@ export class ResourceSet {
         return 'Category';
     }
 
+    public get CourseCatalogList_EmptyUrl(): string {
+        return 'You need to use url of Course Catalog.';
+    }
+
+    public get CourseCatalogList_NotFound(): string {
+        return 'Course Catalog is not found.';
+    }
+
+    public CourseCatalogList_WasSelected(url: string): string {
+        return `Course Catalog was selected (url: ${url}).`;
+    }
+
+    public get CourseCategoryList_Loading(): string {
+        return 'Displaying all course categories...';
+    }
+
+    public get CourseCategoryList_Title(): string {
+        return 'Hey, I found the following categories.';
+    }
+
     public get CEU_Points_Field(): string {
         return 'CEUs';
     }
 
     public get ClassRoom_CourseType(): string {
-        return 'Classroom and Blended';
+        return 'Classroom & Blended';
     }
 
     public get CourseID(): string {
         return 'Course ID';
+    }
+
+    public get CourseList_LoadingAll(): string {
+        return 'Displaying all courses...';
+    }
+
+    public CourseList_LoadingByCategoryName(categoryName: string): string {
+        return `Displaying courses with ${categoryName} category...`;
+    }
+
+    public CourseList_LoadingByCourseType(courseType: CourseType): string {
+        return `Displaying ${this.getCourseTypeName(courseType)} courses...`;
+    }
+
+    public CourseList_LoadingByCourseTypeAndCategoryName(courseType: CourseType, categoryName: string): string {
+        return `Displaying ${this.getCourseTypeName(courseType)} courses with ${categoryName} category...`;
+    }
+
+    public get CourseList_NoItems(): string {
+        return 'There are no courses to display.';
     }
 
     public get Duration_Section_Title(): string {
@@ -40,12 +80,33 @@ export class ResourceSet {
         return 'e-Learning';
     }
 
+    public get Greeting(): string {
+        return `
+I can help you:
+
+<ul>
+    <li>Select your default Course Catalog</li>
+    <li>Find e-Learning, Classroom & Blended and Webinar Courses</li>
+    <li>Find Training Plans</li>
+</ul>
+
+Just click any of the buttons below or simply type ‘show elearning’ to get a list of e-Learning Courses, ‘show webinar’ for Webinar Courses etc.`;
+    }
+
+    public Greeting_Title(userName: string): string {
+        return `Hello ${userName}!`;
+    }
+
     public get Location(): string {
         return 'Location';
     }
 
     public get MoreThanOneDate(): string {
         return 'Multiple Dates';
+    }
+
+    public get MoreThanPageCourseCount(): string {
+        return 'Search result contains more than 10 courses, please make search by categories to reduce number of courses.';
     }
 
     public get MoreThanOneLocation(): string {

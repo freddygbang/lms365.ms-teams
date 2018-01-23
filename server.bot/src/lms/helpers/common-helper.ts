@@ -45,7 +45,12 @@ export class CommonHelper {
             getAll: (courseCatalogId: string) => {
                 const courseCatalogIdFilter = courseCatalogId ? `CourseCatalogId eq ${encodeURIComponent(courseCatalogId)} and ` : '';
 
-                return `odata/v2/Courses?$filter=${courseCatalogIdFilter}IsPublished eq true and ShowInCatalog eq true&${courseUrlQueryParameters}`
+                return `odata/v2/Courses?$filter=${courseCatalogIdFilter}IsPublished eq true and ShowInCatalog eq true&${courseUrlQueryParameters}`;
+            },
+            getByCategoryName: (courseCatalogId: string, categoryName: string) => {
+                const courseCatalogIdFilter = courseCatalogId ? `CourseCatalogId eq ${encodeURIComponent(courseCatalogId)} and ` : '';
+
+                return `odata/v2/Courses?$filter=${courseCatalogIdFilter}IsPublished eq true and ShowInCatalog eq true and Categories/any(x:x/Name eq '${encodeURIComponent(categoryName)}')&${courseUrlQueryParameters}`;
             },
             getByType: (courseCatalogId: string, courseType: CourseType) => {
                 const courseCatalogIdFilter = courseCatalogId ? `CourseCatalogId eq ${encodeURIComponent(courseCatalogId)} and ` : '';
@@ -73,10 +78,21 @@ export class CommonHelper {
         CourseCatalog: {
             getAll: () => `odata/v2/CourseCatalogs?$select=Id,Title&$expand=SharepointWeb`,
             getByUrl: (url: string) => `odata/v2/CourseCatalogs?$select=Id,Title&$expand=SharepointWeb&$filter=SharepointWeb/Url eq '${CommonHelper.encodeURIComponent(url)}'`
+        },
+        CourseCategory: {
+            getAll: (courseCatalogId: string) => {
+                const courseCatalogIdFilter = courseCatalogId ? `?$filter=CourseCatalogId eq ${encodeURIComponent(courseCatalogId)}` : '';
+
+                return `odata/v2/CourseCategories${courseCatalogIdFilter}`;
+            }
         }
     }
 
     public static encodeURIComponent(value: string) {
         return encodeURIComponent(value).replace(/'/g, '\'\'');
+    }
+
+    public static escape(value: string): string {
+        return value.replace(/&/, 'and');
     }
 }
