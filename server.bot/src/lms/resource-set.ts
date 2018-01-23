@@ -25,19 +25,19 @@ export class ResourceSet {
     }
 
     public get CourseCatalogList_NotFound(): string {
-        return 'Course Catalog is not found.';
+        return 'Aw shucks, I could not find that Course Catalog, perhaps you misspelled it? To see all Course Catalogs just ask me to show the course catalog list .';
     }
 
     public CourseCatalogList_WasSelected(url: string): string {
-        return `Course Catalog was selected (url: ${url}).`;
+        return `I have selected the following Course Catalog for you (url: ${url}).`;
     }
 
     public get CourseCategoryList_Loading(): string {
-        return 'Displaying all course categories...';
+        return 'Hold on, I am just getting a list of all the course categories...';
     }
 
     public get CourseCategoryList_Title(): string {
-        return 'Hey, I found the following categories.';
+        return 'Good news, I found the following categories for you, now just select the category you need!.';
     }
 
     public get CEU_Points_Field(): string {
@@ -53,23 +53,23 @@ export class ResourceSet {
     }
 
     public get CourseList_LoadingAll(): string {
-        return 'Displaying all courses...';
+        return 'Alright, I am getting a list of all our courses, just a moment...';
     }
 
     public CourseList_LoadingByCategoryName(categoryName: string): string {
-        return `Displaying courses with ${categoryName} category...`;
+        return `Hold on, I am looking for courses in the ${categoryName} category, back in just a tick!`;
     }
 
     public CourseList_LoadingByCourseType(courseType: CourseType): string {
-        return `Displaying ${this.getCourseTypeName(courseType)} courses...`;
+        return `Give me a couple of seconds, I am looking for all our ${this.getCourseTypeName(courseType)} courses...`;
     }
 
     public CourseList_LoadingByCourseTypeAndCategoryName(courseType: CourseType, categoryName: string): string {
-        return `Displaying ${this.getCourseTypeName(courseType)} courses with ${categoryName} category...`;
+        return `Alright, just a mo! I am getting ${this.getCourseTypeName(courseType)} courses in the ${categoryName} category...`;
     }
 
     public get CourseList_NoItems(): string {
-        return 'There are no courses to display.';
+        return 'Oh no, I couldn\'t find any courses.';
     }
 
     public get Duration_Section_Title(): string {
@@ -82,19 +82,21 @@ export class ResourceSet {
 
     public get Greeting(): string {
         return `
+My name is Elle, I am your Learning Assistant BOT and will try and find the training you might like! 
+</br>
 I can help you:
-
+</br>
 <ul>
     <li>Select your default Course Catalog</li>
     <li>Find e-Learning, Classroom & Blended and Webinar Courses</li>
     <li>Find Training Plans</li>
 </ul>
-
+</br>
 Just click any of the buttons below or simply type ‘show elearning’ to get a list of e-Learning Courses, ‘show webinar’ for Webinar Courses etc.`;
     }
 
     public Greeting_Title(userName: string): string {
-        return `Hello ${userName}!`;
+        return `Hello ${userName}, nice to see you!`;
     }
 
     public get Location(): string {
@@ -106,7 +108,7 @@ Just click any of the buttons below or simply type ‘show elearning’ to get a
     }
 
     public get MoreThanPageCourseCount(): string {
-        return 'Search result contains more than 10 courses, please make search by categories to reduce number of courses.';
+        return 'Ahh, I found more than 10 courses, can I suggest you also select a category from below so my results will be better and more specific!';
     }
 
     public get MoreThanOneLocation(): string {
