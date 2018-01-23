@@ -28,13 +28,22 @@
     ],
     "staticTabs": [
         {
-            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard",
+            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=dashboard&LeaderBoard=false&Transcript=false&CoursesEnded=false",
             "name": "Dashboard",
             "scopes": [
                 "personal"
             ],
             "entityId": "lms365-qa-dashboard"
-        }
+        },
+        {
+            "contentUrl": "https://lms365-msteams-web-qa-ne.azurewebsites.net/Tab?view=training",
+            "name": "Training",
+            "scopes": [
+                "personal"
+            ],
+            "entityId": "lms365-training"
+        }        
+
     ],
     "bots": [
         {

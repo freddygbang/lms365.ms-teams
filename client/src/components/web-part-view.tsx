@@ -52,8 +52,8 @@ export class WebPartView extends View<WebPartProps> {
         return (
             <div>
                 <div className={`--efLms365${webPartName}`}></div>
-                <div className="--efLms365ScriptLoader" style={{ display: 'none' }}></div>
-            </div>
+                <div className="--efLms365ScriptLoader" style={{ display: 'none' }}></div>                
+            </div>            
         );
     }
 
@@ -64,12 +64,16 @@ export class WebPartView extends View<WebPartProps> {
         $(document).on('click', '.ef--link-course, a[target="_top"]', function () {
             const href = $(this).attr('href');
 
-            if ($(this).hasClass('ef--link-course')) {
-                (document as any).location = 'Course?webUrl=' + encodeURIComponent(href);
+            if ($(this).hasClass('ef--link-course')) {                
+                document.location.href = 'Course?webUrl=' + encodeURIComponent(href);
             } else {
-                (document as any).location = href;
+                document.location.href = href;
             }
 
+            return false;
+        });
+
+        $(document).on('click', 'a.course-certificate, .lCoursesCertificate a', function(){
             return false;
         });
     }

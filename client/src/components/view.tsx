@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Context, ThemeStyle, TeamsComponentContext, ConnectedComponent, Panel, PanelBody } from 'msteams-ui-components-react';
 import { AuthenticationConfig } from 'ef.lms365';
-import { Loading } from './loading';
 import { LoginButton } from './login-button';
 import { Helper } from '../infrastructure/helper';
 
@@ -39,7 +38,9 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
     }
 
     protected initializeMsTeams(context: any) {
-        if (this.redirectToViewFromContext(context)) {
+        const redirectViewUrl = this.getRedirectViewUrlFromContext(context);
+        if (redirectViewUrl) {
+            document.location.href = redirectViewUrl;
             return;
         }
 
@@ -66,28 +67,27 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
         this.setState({ theme: themeByName[context.theme] || ThemeStyle.Light });
     }
 
-    protected redirectToViewFromContext(context: any): boolean {
+    protected getRedirectViewUrlFromContext(context: any): string {
         const pathName = window.location.pathname;
 
         if (context && context.subEntityId && (pathName.indexOf('Tab') != -1)) {
-            const config = JSON.parse(context.subEntityId);
-            const viewName = config.view;
-            const webUrl = config.webUrl;
-
-            switch (viewName) {
-                case 'dashboard':
-                    (document as any).location = 'Dashboard';
-                    return true;
-                case 'course-catalog':
-                    (document as any).location = 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);
-                    return true;
-                case 'course':
-                    (document as any).location = 'Course?webUrl=' + encodeURIComponent(webUrl);
-                    return true;
-            }
-        } else {
-            return false;
+            return this.getRedirectViewUrl(context.subEntityId);
         }
+    }
+
+    protected getRedirectViewUrl(configJson: string):string {
+        const config = JSON.parse(configJson);
+        const viewName = config.view;
+        const webUrl = config.webUrl;
+
+        switch (viewName) {
+            case 'dashboard':
+                return 'Dashboard';                
+            case 'course-catalog':
+                return 'CourseCatalog?webUrl=' + encodeURIComponent(webUrl);                
+            case 'course':
+                return 'Course?webUrl=' + encodeURIComponent(webUrl);                
+        }        
     }
 
     protected renderContent(context: Context): JSX.Element {
@@ -115,9 +115,14 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                 <style>
                     {
                         `
-                            body {
-                                overflow: auto !important;
-                            }
+                            body { overflow: auto !important; }
+                            .--efLms365Dashboard #lms365 .lbUserInfo .user-photo { display: none; }
+                            .--efLms365Dashboard .k-grid .k-hierarchy-cell { padding: 0 0 0 0.6em; }
+                            .--efLms365Dashboard #lms365 .courseCertificateDownload a { cursor:default; }
+                            .--efLms365Dashboard #lms365 .courseCertificateDownload .course-icon-text { display:none; }
+                            .--efLms365Dashboard #lms365 .lCoursesCertificate a { cursor:default; }
+                            .--efLms365Course-page .course-certificate a { display:none; }
+                            .course-management-button { display:none; }
                         `
                     }
                 </style>
@@ -140,7 +145,7 @@ export class View<P = any, S extends ViewState = ViewState> extends React.Compon
                                 }} />
                             </TeamsComponentContext>
                         )
-                        : <Loading />
+                        : null
                 }
             </div>
         );

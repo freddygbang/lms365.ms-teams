@@ -18,6 +18,18 @@ export class TrainingView extends View {
         );
     }
 
+    protected getRedirectViewUrlFromContext(context: any): string {
+        const key = 'ef.lms365.trainingTabContext';
+        let redirectViewUrl = super.getRedirectViewUrlFromContext(context);
+        if (redirectViewUrl) {
+            window.localStorage.setItem(key, redirectViewUrl);
+        }
+        else {
+            redirectViewUrl = window.localStorage.getItem(key);
+        }
+        return redirectViewUrl;
+    }
+
     protected get allowRenderPanel(): boolean {
         return false;
     }
