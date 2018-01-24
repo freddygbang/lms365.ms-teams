@@ -69,24 +69,26 @@ export class SearchCourseListActionHandler {
 
 
         if (courseType && categoryName) {
-            session.send(resourceSet.CourseList_LoadingByCourseTypeAndCategoryName(courseType, categoryName));
-
             promise = lmsContext.modelStorages.courses.getByTypeAndCategoryName(courseType, categoryName);
         } else if (courseType) {
-            session.send(resourceSet.CourseList_LoadingByCourseType(courseType));
-
             promise = lmsContext.modelStorages.courses.getByType(courseType);
         } else if (categoryName) {
-            session.send(resourceSet.CourseList_LoadingByCategoryName(categoryName));
-
             promise = lmsContext.modelStorages.courses.getByCategoryName(categoryName);
         } else {
-            session.send(resourceSet.CourseList_LoadingAll);
-
             promise = lmsContext.modelStorages.courses.getAll();
         }
 
         const courses = await promise;
+
+        if (courseType && categoryName) {
+            session.send(resourceSet.CourseList_LoadingByCourseTypeAndCategoryName(courseType, categoryName));
+        } else if (courseType) {
+            session.send(resourceSet.CourseList_LoadingByCourseType(courseType));
+        } else if (categoryName) {
+            session.send(resourceSet.CourseList_LoadingByCategoryName(categoryName));
+        } else {
+            session.send(resourceSet.CourseList_LoadingAll);
+        }
 
         this.sendMessageAboutCourses(session, lmsContext, courseType, categoryName, courses);
 

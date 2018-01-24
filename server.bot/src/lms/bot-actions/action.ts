@@ -11,6 +11,8 @@ export interface ActionDefinition {
 
 export const wrapAction = (actionDefinition: ActionDefinition) =>
     async (session: Session, args: any, next: any) => {
+        session.sendTyping();
+
         const lmsContext = await LmsContextProvider.instance.get(session);
 
         actionDefinition.action(session, lmsContext, args, next);

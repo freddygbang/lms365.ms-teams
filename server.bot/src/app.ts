@@ -1,7 +1,8 @@
 import * as env from 'dotenv-extended';
 import * as restify from 'restify';
-import { IMessage, Message, Session, UniversalBot } from 'botbuilder';
+import { IMessage, Message, Session } from 'botbuilder';
 import * as teamBuilder from 'botbuilder-teams';
+import { Bot } from './bot';
 import { LuisRecognizer } from './luis-recognizer';
 import { wrapAction } from './lms/bot-actions/action';
 import { SearchCourseList } from './lms/bot-actions/search-course-list';
@@ -22,7 +23,7 @@ const luisModelUrl = process.env.LUIS_MODEL_URL;
 const connector = new teamBuilder.TeamsChatConnector({ appId: appId, appPassword: appPassword });
 const recognizer = new LuisRecognizer(luisModelUrl);
 
-export const bot = new UniversalBot(connector, [wrapAction(None)]);
+export const bot = new Bot(connector, [wrapAction(None)]);
 
 bot.recognizer(recognizer);
 

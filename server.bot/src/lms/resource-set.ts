@@ -80,6 +80,10 @@ export class ResourceSet {
         return 'e-Learning';
     }
 
+    public get Error(): string {
+        return `I am sorry, I didn’t really understand that, can you try rephrase the question? Alternatively type ‘Help’ and I will try and help you further or checkout my <a href="https://helpcenter.elearningforce.com/hc/en-us/articles/360000108989">help center</a>.`;
+    }
+
     public get Greeting(): string {
         return `
 My name is Elle, I am your Learning Assistant BOT and will try and find the training you might like! 
